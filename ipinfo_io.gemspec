@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Stanislav K"]
   spec.email         = ["sk@skylup.com"]
 
-  spec.summary       = %q{This is a ruby wrapper for http://ipinfo.io}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = %q{ This is a ruby wrapper for http://ipinfo.io. }
+  spec.description   = %q{ This is a ruby wrapper for http://ipinfo.io. }
   spec.homepage      = "https://ipinfo.io"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
