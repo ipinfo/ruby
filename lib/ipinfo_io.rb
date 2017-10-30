@@ -1,5 +1,13 @@
 require "ipinfo_io/version"
+require 'faraday'
+require 'json'
 
 module IpinfoIo
-  # Your code goes here...
+	def self.call
+    response = Faraday.get('https://ipinfo.io') do |req|
+      req.headers['User-Agent'] = 'curl/7.30.0'
+    end
+
+    JSON.parse(response.body)
+	end
 end

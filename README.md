@@ -21,8 +21,10 @@ Or install it yourself as:
     $ gem install ipinfo_io
 
 ## Usage
+Not yeat published on rubygems.org
 
-...
+### Requirements
+- Ruby 2.0+
 
 ## Development
 
@@ -32,5 +34,14 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ipinfo_io.
+Setting up project:
+- Be sure to have **rvm** or **rbenv**
+- Be sure to have **bundler gem** installed.
+- `bundle install`
+- Check that your IDE/editor can handle [.editorconfig](http://editorconfig.org) file
+
+Running tests is easy:
+- `bundle exec rake`
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/ipinfoio/ruby/.
 
