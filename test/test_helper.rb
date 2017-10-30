@@ -4,7 +4,7 @@ require 'ipinfo_io'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest-vcr'
-require 'webmock'
+require 'webmock/minitest'
 
 Minitest::Reporters.use!(
   Minitest::Reporters::SpecReporter.new

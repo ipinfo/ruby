@@ -9,6 +9,11 @@ class IpinfoIoTest < Minitest::Test
     refute_nil ::IpinfoIo::VERSION
   end
 
+  def test_rate_limit_error
+    error = assert_equal(IpinfoIo::RateLimitError) { IpinfoIo.lookup }
+    assert_equal "To increase your limits, please review our paid plans at https://ipinfo.io/pricing", error.message
+  end
+
   def test_lookup_without_arg
     expected = {
       "ip" => "110.171.151.183",
