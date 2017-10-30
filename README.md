@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/ipinfoio/ruby.svg?branch=master)](https://travis-ci.org/ipinfoio/ruby)
 
-# IpinfoIo
+# Ipinfo.io
 
 Use the ipinfo.io IP lookup API wrapper to quickly and simply integrate IP geolocation. Save yourself the hassle of setting up local GeoIP libraries and having to remember to regularly update the data.
 
