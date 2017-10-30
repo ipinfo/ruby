@@ -6,6 +6,15 @@ class IpinfoIoTest < Minitest::Test
   end
 
   def test_machine_location
-  	assert_equal ({country: "Thailand"}), IpinfoIo.call
+    response = {
+      "ip" => "49.229.162.85",
+      "city" => "",
+      "region" => "",
+      "country" => "TH",
+      "loc" => "13.7500,100.4667",
+      "org" => "AS131445 ADVANCED WIRELESS NETWORK COMPANY LIMITED"
+    }
+
+  	assert_equal response, IpinfoIo.call
   end
 end
