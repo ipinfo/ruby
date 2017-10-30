@@ -2,7 +2,7 @@
 
 # IpinfoIo
 
-...
+Use the ipinfo.io IP lookup API wrapper to quickly and simply integrate IP geolocation. Save yourself the hassle of setting up local GeoIP libraries and having to remember to regularly update the data.
 
 ## Installation
 
@@ -14,14 +14,33 @@ gem 'ipinfo_io'
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
     $ gem install ipinfo_io
 
 ## Usage
-Not yeat published on rubygems.org
+
+Most obvious way to use this script:
+
+```
+IpinfoIo::lookup(ip)
+```
+
+You can also include it:
+
+```
+class YourClass
+  include IpinfoIo
+
+  def some_method
+    lookup(ip)
+  end
+end
+```
+
+API has a rate limit of 1,000 API requests per day. If you do more then that, then expect `IpinfoIo::RateLimitError` to appear.
 
 ### Requirements
 - Ruby 2.0+
@@ -40,8 +59,7 @@ Setting up project:
 - `bundle install`
 - Check that your IDE/editor can handle [.editorconfig](http://editorconfig.org) file
 
-Running tests is easy:
-- `bundle exec rake`
+Running tests is as easy as `bundle exec rake`
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/ipinfoio/ruby/.
 
