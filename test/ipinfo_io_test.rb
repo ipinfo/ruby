@@ -15,6 +15,8 @@ class IpinfoIoTest < Minitest::Test
       "org" => "AS131445 ADVANCED WIRELESS NETWORK COMPANY LIMITED"
     }
 
-  	assert_equal response, IpinfoIo.call
+    VCR.use_cassette('current machine search') do
+      assert_equal response, IpinfoIo.call
+    end
   end
 end

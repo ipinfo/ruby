@@ -18,6 +18,9 @@ group :development do
   gem "bundler"
   gem "rake"
   gem "minitest"
+  gem 'minitest-vcr'
+  gem 'minitest-reporters'
+  gem 'webmock'
 
   platforms :mri do
     # to avoid problems, bring Byebug in on just versions of Ruby under which
