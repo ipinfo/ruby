@@ -3,7 +3,7 @@ require 'test_helper'
 
 class IpinfoIoTest < Minitest::Test
   IP4 = '195.233.174.116'
-  IP6 = 'f4bc:bab1:4d39:9c0b:8797:a867:e6ce:6629'
+  IP6 = '2601:9:7680:363:75df:f491:6f85:352f'
 
   def test_that_it_has_a_version_number
     refute_nil ::IpinfoIo::VERSION
@@ -27,7 +27,14 @@ class IpinfoIoTest < Minitest::Test
   end
 
   def test_lookup_ip6
-    expected = {'ip' => IP6 }
+    expected = {
+      "ip"=>"2601:9:7680:363:75df:f491:6f85:352f",
+      "city"=>"",
+      "region"=>"",
+      "country"=>"US",
+      "loc"=>"37.7510,-97.8220",
+      "org"=>"AS7922 Comcast Cable Communications, LLC"
+    }
 
     VCR.use_cassette('search with ip6') do
       assert_equal expected, IpinfoIo.lookup(IP6)

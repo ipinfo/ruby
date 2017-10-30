@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://ipinfo.io/f4bc:bab1:4d39:9c0b:8797:a867:e6ce:6629
+    uri: https://ipinfo.io/2601:9:7680:363:75df:f491:6f85:352f
     body:
       encoding: US-ASCII
       string: ''
@@ -21,13 +21,13 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 30 Oct 2017 14:23:13 GMT
+      - Mon, 30 Oct 2017 14:25:28 GMT
       Content-Type:
       - application/json; charset=utf-8
       Vary:
       - Accept-Encoding
       X-Cloud-Trace-Context:
-      - d37eff100ca80730c8908f91b4a452fd/12823017315016553989;o=0
+      - 7b6305380db6376a46a4a58f24520c52/2179280618085498947;o=0
       Access-Control-Allow-Origin:
       - "*"
       X-Content-Type-Options:
@@ -40,8 +40,13 @@ http_interactions:
       encoding: ASCII-8BIT
       string: |-
         {
-          "ip": "f4bc:bab1:4d39:9c0b:8797:a867:e6ce:6629"
+          "ip": "2601:9:7680:363:75df:f491:6f85:352f",
+          "city": "",
+          "region": "",
+          "country": "US",
+          "loc": "37.7510,-97.8220",
+          "org": "AS7922 Comcast Cable Communications, LLC"
         }
     http_version: 
-  recorded_at: Mon, 30 Oct 2017 14:23:13 GMT
+  recorded_at: Mon, 30 Oct 2017 14:25:29 GMT
 recorded_with: VCR 3.0.3
