@@ -8,6 +8,8 @@ rvm:
   - 2.2
   - 2.3.0
   - 2.4.0
-  - jruby-9.1
+  - jruby-9.1.13.0
 
-before_install: gem install bundler -v 1.13.7
+before_install:
+- gem install bundler
+- if [[ "$TRAVIS_RUBY_VERSION" =~ "jruby" ]]; then rvm get head && rvm reload
