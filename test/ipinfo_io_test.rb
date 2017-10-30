@@ -10,7 +10,8 @@ class IpinfoIoTest < Minitest::Test
   end
 
   def test_rate_limit_error
-    error = assert_equal(IpinfoIo::RateLimitError) { IpinfoIo.lookup }
+    stub_request(:get, 'https://ipinfo.io').to_return(body:'', status: 429)
+    error = assert_raises(IpinfoIo::RateLimitError) { IpinfoIo.lookup }
     assert_equal "To increase your limits, please review our paid plans at https://ipinfo.io/pricing", error.message
   end
 
