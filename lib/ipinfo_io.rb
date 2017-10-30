@@ -1,7 +1,6 @@
 require "ipinfo_io/version"
 require 'faraday'
 require 'json'
-require 'pry'
 
 module IpinfoIo
 	def self.call
