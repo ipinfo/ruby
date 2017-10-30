@@ -6,6 +6,7 @@ require 'ipinfo_io/version'
 Gem::Specification.new do |spec|
   spec.name          = "ipinfo_io"
   spec.version       = IpinfoIo::VERSION
+  spec.required_ruby_version = ">= 2.0.0"
   spec.authors       = ["Stanislav K"]
   spec.email         = ["sk@skylup.com"]
 
@@ -22,14 +23,12 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
+  spec.add_dependency 'faraday'
+
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-
-  spec.add_development_dependency "bundler", "~> 1.13"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "minitest", "~> 5.0"
 end

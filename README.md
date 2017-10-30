@@ -22,7 +22,8 @@ Or install it yourself as:
 
 ## Usage
 
-...
+### Requirements
+- Ruby 2.0+
 
 ## Development
 
