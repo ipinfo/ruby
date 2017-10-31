@@ -3,11 +3,12 @@ language: ruby
 cache: bundler
 
 rvm:
-  - 2.0.0
+  - 2.0
   - 2.1
   - 2.2
-  - 2.3.0
-  - 2.4.0
+  - 2.3
+  - 2.4
+  - jruby-head
 
 before_install:
 - gem install bundler
