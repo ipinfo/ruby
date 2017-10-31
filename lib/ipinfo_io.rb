@@ -2,6 +2,7 @@
 
 require "ipinfo_io/version"
 require 'ipinfo_io/errors'
+require 'ipinfo_io/response'
 require 'faraday'
 require 'json'
 
@@ -10,7 +11,7 @@ module IpinfoIo
   HOST = 'ipinfo.io'
 
   class << self
-    attr_writer :access_token
+    attr_accessor :access_token
 
     def lookup(ip=nil)
       response = Faraday.get(url_builder(ip)) do |req|
@@ -21,14 +22,14 @@ module IpinfoIo
 
       raise RateLimitError.new(RATE_LIMIT_MESSAGE) if response.status.eql?(429)
 
-      JSON.parse(response.body)
+      IpinfoIo::Response.from_faraday(response)
     end
 
     private
 
     def url_builder(ip)
-      if @access_token
-        "https://#{HOST}/#{ip}?token=#{CGI.escape(@access_token)}"
+      if access_token
+        "https://#{HOST}/#{ip}?token=#{CGI.escape(access_token)}"
       else
         "https://#{HOST}/#{ip}"
       end
