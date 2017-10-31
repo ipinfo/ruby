@@ -5,12 +5,13 @@ module IpinfoIo
   class Adapter
     HOST = 'ipinfo.io'
 
-    def initialize(token=nil)
+    def initialize(token=nil, conn=Faraday.new(url: "https://#{HOST}"))
       @token = token
+      @conn = conn
     end
 
     def get(ip=nil)
-      Faraday.get(url_builder(ip)) do |req|
+      @conn.get(uri_builder(ip)) do |req|
         default_headers.each_pair do |key, value|
           req.headers[key] = value
         end
@@ -19,15 +20,11 @@ module IpinfoIo
 
     private
 
-    attr_reader :token
-
-    def url_builder(ip)
-      if token
-        "https://#{HOST}/#{ip}?token=#{token}"
-      else
-        "https://#{HOST}/#{ip}"
-      end
+    def uri_builder(ip)
+      token ? "/#{ip}?token=#{token}" : "/#{ip}"
     end
+
+    attr_reader :token
 
     def default_headers
         {
