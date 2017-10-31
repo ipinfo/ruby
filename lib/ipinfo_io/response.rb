@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+require 'json'
+
 module IpinfoIo
   class Response
     # The data contained by the HTTP body of the response deserialized from
