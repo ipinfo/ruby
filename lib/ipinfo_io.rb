@@ -5,6 +5,7 @@ require 'ipinfo_io/errors'
 require 'ipinfo_io/response'
 require 'faraday'
 require 'json'
+require 'cgi'
 
 module IpinfoIo
   RATE_LIMIT_MESSAGE = "To increase your limits, please review our paid plans at https://ipinfo.io/pricing"
@@ -29,9 +30,9 @@ module IpinfoIo
 
     def url_builder(ip)
       if access_token
-        "https://#{HOST}/#{ip}?token=#{CGI.escape(access_token)}"
+        "https://#{HOST}/#{CGI.escape(ip)}?token=#{CGI.escape(access_token)}"
       else
-        "https://#{HOST}/#{ip}"
+        "https://#{HOST}/#{CGI.escape(ip)}"
       end
     end
 
