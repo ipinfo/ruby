@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'faraday'
+require 'CGI'
 
 module IpinfoIo
   class Adapter
@@ -15,13 +16,14 @@ module IpinfoIo
         default_headers.each_pair do |key, value|
           req.headers[key] = value
         end
+        req.params['token'] = CGI.escape(token) if token
       end
     end
 
     private
 
     def uri_builder(ip)
-      token ? "/#{ip}?token=#{token}" : "/#{ip}"
+      ip ? "/#{CGI.escape(ip)}" : '/'
     end
 
     attr_reader :token
