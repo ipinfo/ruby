@@ -42,6 +42,13 @@ end
 
 API has a rate limit of 1,000 API requests per day. If you do more then that, then expect `IpinfoIo::RateLimitError` to appear.
 
+To avoid that error, you can provide your access_token anywhere in initialisation files, in Rails this could be`config/initializers/ipinfo.rb` with:
+
+```
+IpinfoIo.access_token = "your_access_token"
+```
+
+
 ### Requirements
 - Ruby 2.0+
 
