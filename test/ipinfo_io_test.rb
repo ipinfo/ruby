@@ -16,6 +16,13 @@ class IpinfoIoTest < Minitest::Test
       IpinfoIo.lookup
       assert_requested :get, "https://ipinfo.io?token=test_token"
     end
+
+    IpinfoIo.access_token = "'Stop!' said Fred"
+
+    VCR.use_cassette('lookup_with_awkward_token') do
+      IpinfoIo.lookup
+      assert_requested :get, "https://ipinfo.io?token=%27Stop%21%27+said+Fred"
+    end
   end
 
   def test_rate_limit_error

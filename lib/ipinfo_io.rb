@@ -28,7 +28,7 @@ module IpinfoIo
 
     def url_builder(ip)
       if @access_token
-        "https://#{HOST}/#{ip}?token=#{@access_token}"
+        "https://#{HOST}/#{ip}?token=#{CGI.escape(@access_token)}"
       else
         "https://#{HOST}/#{ip}"
       end
