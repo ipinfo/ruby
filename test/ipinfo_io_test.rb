@@ -12,8 +12,9 @@ class IpinfoIoTest < Minitest::Test
   def test_set_access_token
     assert IpinfoIo.access_token = 'test_token'
 
-    VCR.use_cassette('with access_token present') do
-      assert IpinfoIo.lookup
+    VCR.use_cassette('lookup_with_token') do
+      IpinfoIo.lookup
+      assert_requested :get, "https://ipinfo.io?token=test_token"
     end
   end
 
