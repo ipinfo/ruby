@@ -9,6 +9,14 @@ class IpinfoIoTest < Minitest::Test
     refute_nil ::IpinfoIo::VERSION
   end
 
+  def test_set_access_token
+    assert IpinfoIo.access_token = 'test_token'
+
+    VCR.use_cassette('with access_token present') do
+      assert IpinfoIo.lookup
+    end
+  end
+
   def test_rate_limit_error
     stub_request(:get, 'https://ipinfo.io').to_return(body:'', status: 429)
     error = assert_raises(IpinfoIo::RateLimitError) { IpinfoIo.lookup }
