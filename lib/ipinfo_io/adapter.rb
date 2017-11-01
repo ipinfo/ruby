@@ -6,9 +6,11 @@ module IpinfoIo
   class Adapter
     HOST = 'ipinfo.io'
 
-    def initialize(token=nil, conn=Faraday.new(url: "https://#{HOST}"))
+    attr_reader :conn
+
+    def initialize(token = nil, adapter = :net_http)
       @token = token
-      @conn = conn
+      @conn = connection(adapter)
     end
 
     def get(uri)
@@ -24,9 +26,15 @@ module IpinfoIo
 
     attr_reader :token
 
+    def connection(adapter)
+      Faraday.new(url: "https://#{HOST}") do |faraday|
+        faraday.adapter adapter
+      end
+    end
+
     def default_headers
         {
-          'User-Agent' => "ruby/#{::IpinfoIo::VERSION}",
+          'User-Agent' => "ipinfo-ruby/#{::IpinfoIo::VERSION}",
           'Accept' => 'application/json'
         }
     end

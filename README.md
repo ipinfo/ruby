@@ -48,9 +48,22 @@ To avoid that error, you can provide your access_token anywhere in initialisatio
 IpinfoIo.access_token = "your_access_token"
 ```
 
+### HTTP libraries
+Ruby is notoriously known for having a lot of HTTP libraries. While `Net::HTTP` is a reasonable default, you can set any other that [Faraday supports](https://github.com/lostisland/faraday/tree/29feeb92e3413d38ffc1fd3a3479bb48a0915730#faraday) if you need it.
+
+```
+IpinfoIo.http_adapter = :excon
+```
+
+Don't forget to bundle that http library, since they are not included.
 
 ### Requirements
+One of following:
 - Ruby 2.0+
+- Jruby
+- Rubinius (should work, but not tested)
+
+It's also framework agnostic and supports all the http adapters [Faraday supports](https://github.com/lostisland/faraday/tree/29feeb92e3413d38ffc1fd3a3479bb48a0915730#faraday).
 
 ## Development
 

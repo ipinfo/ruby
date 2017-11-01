@@ -9,6 +9,11 @@ class IpinfoIoTest < Minitest::Test
     refute_nil ::IpinfoIo::VERSION
   end
 
+  def test_set_adapter
+    assert IpinfoIo.http_adapter = :excon
+    IpinfoIo.http_adapter = nil
+  end
+
   def test_set_access_token
     assert IpinfoIo.access_token = 'test_token'
 
