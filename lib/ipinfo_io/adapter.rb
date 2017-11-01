@@ -11,8 +11,8 @@ module IpinfoIo
       @conn = conn
     end
 
-    def get(ip=nil)
-      @conn.get(uri_builder(ip)) do |req|
+    def get(uri)
+      @conn.get(uri) do |req|
         default_headers.each_pair do |key, value|
           req.headers[key] = value
         end
@@ -21,10 +21,6 @@ module IpinfoIo
     end
 
     private
-
-    def uri_builder(ip)
-      ip ? "/#{CGI::escape(ip)}" : '/'
-    end
 
     attr_reader :token
 
