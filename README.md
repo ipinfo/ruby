@@ -49,7 +49,7 @@ IpinfoIo.access_token = "your_access_token"
 ```
 
 ### HTTP libraries
-Ruby is notoriously known for having a lot of HTTP libraries. While `Net::HTTP` is a reasonable default, you can set your own if you need it.
+Ruby is notoriously known for having a lot of HTTP libraries. While `Net::HTTP` is a reasonable default, you can set any other that [Faraday supports](https://github.com/lostisland/faraday/tree/29feeb92e3413d38ffc1fd3a3479bb48a0915730#faraday) if you need it.
 
 ```
 IpinfoIo.http_adapter = :excon
@@ -63,7 +63,7 @@ One of following:
 - Jruby
 - Rubinius (should work, but not tested)
 
-It's also framework agnostic and supports all the http adapters #[Faraday](https://github.com/lostisland/faraday/tree/29feeb92e3413d38ffc1fd3a3479bb48a0915730#faraday) supports.
+It's also framework agnostic and supports all the http adapters [Faraday supports](https://github.com/lostisland/faraday/tree/29feeb92e3413d38ffc1fd3a3479bb48a0915730#faraday).
 
 ## Development
 
