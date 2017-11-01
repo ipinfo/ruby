@@ -12,4 +12,5 @@ rvm:
   - rbx-2
 
 before_install:
+- brew install openssl
 - gem install bundler
