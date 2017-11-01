@@ -27,18 +27,14 @@ module IpinfoIo
     attr_reader :token
 
     def connection(adapter)
-      Faraday.new(url: host) do |faraday|
+      Faraday.new(url: "https://#{HOST}") do |faraday|
         faraday.adapter adapter
       end
     end
 
-    def host
-      "https://#{HOST}"
-    end
-
     def default_headers
         {
-          'User-Agent' => "ruby/#{::IpinfoIo::VERSION}",
+          'User-Agent' => "ipinfo-ruby/#{::IpinfoIo::VERSION}",
           'Accept' => 'application/json'
         }
     end
