@@ -11,9 +11,14 @@ module IpinfoIo
 
   class << self
     attr_accessor :access_token
+    attr_writer :http_adapter
 
     def lookup(ip=nil)
-      response = Adapter.new(access_token).get(uri_builder(ip))
+      response = if @http_adapter
+        Adapter.new(access_token, @http_adapter)
+      else
+        Adapter.new(access_token)
+      end.get(uri_builder(ip))
 
       raise RateLimitError.new(RATE_LIMIT_MESSAGE) if response.status.eql?(429)
 
