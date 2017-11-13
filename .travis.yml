@@ -1,3 +1,4 @@
+dist: trusty
 sudo: false
 language: ruby
 cache: bundler
@@ -12,5 +13,4 @@ rvm:
   - rbx-2
 
 before_install:
-- brew install openssl
 - gem install bundler
