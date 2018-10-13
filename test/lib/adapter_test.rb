@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 require 'test_helper'
-require_relative '../../lib/ipinfo_io/adapter'
+require_relative '../../lib/ipinfo/adapter'
 
-class IpinfoIo::AdapterTest < Minitest::Test
+class IPinfo::AdapterTest < Minitest::Test
   def test_default
-    adapter = IpinfoIo::Adapter.new
+    adapter = IPinfo::Adapter.new
     assert(adapter.conn.builder.handlers[0] === Faraday::Adapter::NetHttp)
   end
 
@@ -20,13 +20,13 @@ class IpinfoIo::AdapterTest < Minitest::Test
   }
 
   def test_unsupported_adapter
-    error = assert_raises(Faraday::Error) { IpinfoIo::Adapter.new(nil, :missing_adapter) }
+    error = assert_raises(Faraday::Error) { IPinfo::Adapter.new(nil, :missing_adapter) }
     assert_equal error.message, ":missing_adapter is not registered on Faraday::Adapter"
   end
 
   def test_all_possible_adapters
     SUPPORTED_ADAPTERS.keys.each do |key|
-      adapter = IpinfoIo::Adapter.new(nil, key)
+      adapter = IPinfo::Adapter.new(nil, key)
       assert(adapter.conn.builder.handlers[0] === SUPPORTED_ADAPTERS[key])
     end
   end

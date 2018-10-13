@@ -1,14 +1,14 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'ipinfo_io/version'
+require 'ipinfo/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "ipinfo_io"
-  spec.version       = IpinfoIo::VERSION
+  spec.name          = "ipinfo"
+  spec.version       = IPinfo::VERSION
   spec.required_ruby_version = ">= 2.0.0"
-  spec.authors       = ["Stanislav K"]
-  spec.email         = ["sk@skylup.com"]
+  spec.authors       = ["Stanislav K, James Timmins"]
+  spec.email         = ["jameshtimmins@gmail.com"]
 
   spec.summary       = %q{ This is a ruby wrapper for http://ipinfo.io. }
   spec.description   = %q{ This is a ruby wrapper for http://ipinfo.io. }
@@ -23,7 +23,9 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.add_dependency 'faraday'
+  spec.add_runtime_dependency 'faraday', '~> 0'
+  spec.add_runtime_dependency 'lrucache', '~> 0.1.4'
+  spec.add_runtime_dependency 'json', '~> 2.1'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
