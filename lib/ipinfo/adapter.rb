@@ -40,7 +40,6 @@ module IPinfo
         if token
           headers['Authorization'] = "Bearer #{CGI::escape(token)}"
         end
-        puts headers
         headers
     end
   end
