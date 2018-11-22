@@ -28,7 +28,7 @@ module IPinfo
 
     def initialize(access_token=nil, settings={})
       @access_token = access_token
-      @http_client = getHttpClient(settings.fetch("http_client", nil))
+      @http_client = http_client(settings.fetch("http_client", nil))
 
       maxsize = settings.fetch("maxsize", DEFAULT_CACHE_MAXSIZE)
       ttl = settings.fetch("ttl", DEFAULT_CACHE_TTL)
@@ -68,7 +68,7 @@ module IPinfo
       @cache.get(ip_address)
     end
 
-    def getHttpClient(http_client=nil)
+    def http_client(http_client=nil)
       if http_client
         @http_client = Adapter.new(access_token, http_client)
       else
