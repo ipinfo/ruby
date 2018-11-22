@@ -38,14 +38,14 @@ access_token = '123456789abc'
 handler = IPinfo::handler(access_token)
 ip_address = '216.239.36.21'
 
-details = handler.getDetails(ip_address)
+details = handler.details(ip_address)
 city = details.city # Emeryville
 loc = details.loc # 37.8342,-122.2900
 ```
 
 #### Usage
 
-The `IPinfo.getDetails()` method accepts an IP address as an optional, positional argument. If no IP address is specified, the API will return data for the IP address from which it receives the request.
+The `IPinfo.details()` method accepts an IP address as an optional, positional argument. If no IP address is specified, the API will return data for the IP address from which it receives the request.
 
 ```ruby
 require 'ipinfo'
@@ -53,7 +53,7 @@ require 'ipinfo'
 access_token = '123456789abc'
 handler = IPinfo::handler(access_token)
 
-details = handler.getDetails()
+details = handler.details()
 city = details.city # "Emeryville"
 loc = details.loc # 37.8342,-122.2900
 ```
@@ -69,7 +69,7 @@ handler = IPinfo::handler(access_token)
 
 #### Details Data
 
-`handler.getDetails()` will return a `Response` object that contains all fields listed in the [IPinfo developer docs](https://ipinfo.io/developers/responses#full-response) with a few minor additions. Properties can be accessed directly.
+`handler.details()` will return a `Response` object that contains all fields listed in the [IPinfo developer docs](https://ipinfo.io/developers/responses#full-response) with a few minor additions. Properties can be accessed directly.
 
 ```ruby
 hostname = details.hostname # cpe-104-175-221-247.socal.res.rr.com

@@ -36,7 +36,7 @@ module IPinfo
       @countries = getCountries(settings.fetch('countries', DEFAULT_COUNTRY_FILE))
     end
 
-    def getDetails(ip_address=nil)
+    def details(ip_address=nil)
       details = getRequestDetails(ip_address)
       if details.has_key? :country
         details[:country_name] = @countries.fetch(details.fetch(:country), nil)

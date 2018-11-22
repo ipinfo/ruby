@@ -19,7 +19,7 @@ class IPinfoTest < Minitest::Test
     ipinfo = IPinfo::handler('test_token')
 
     VCR.use_cassette('lookup_with_token') do
-      ipinfo.getDetails()
+      ipinfo.details()
       assert_requested :get, "https://ipinfo.io?token=test_token"
 
     end
@@ -30,7 +30,7 @@ class IPinfoTest < Minitest::Test
   def test_rate_limit_error
     ipinfo = IPinfo::handler()
     stub_request(:get, 'https://ipinfo.io').to_return(body:'', status: 429)
-    error = assert_raises(IPinfo::RateLimitError) { ipinfo.getDetails }
+    error = assert_raises(IPinfo::RateLimitError) { ipinfo.details }
     assert_equal "To increase your limits, please review our paid plans at https://ipinfo.io/pricing", error.message
   end
 
@@ -52,7 +52,7 @@ class IPinfoTest < Minitest::Test
 
     VCR.use_cassette('current machine search') do
       ipinfo = IPinfo::handler()
-      response = ipinfo.getDetails()
+      response = ipinfo.details()
       assert_instance_of IPinfo::Response, response
       assert_equal expected[:ip], response.ip
       assert_instance_of IPAddr, response.ip_address
@@ -78,7 +78,7 @@ class IPinfoTest < Minitest::Test
 
     VCR.use_cassette('search with ip6') do
       ipinfo = IPinfo::handler()
-      response = ipinfo.getDetails(IP6)
+      response = ipinfo.details(IP6)
       assert_equal expected, response.all
     end
   end
@@ -99,7 +99,7 @@ class IPinfoTest < Minitest::Test
 
     VCR.use_cassette('search with random ip') do
       ipinfo = IPinfo::handler()
-      response = ipinfo.getDetails(IP4)
+      response = ipinfo.details(IP4)
       assert_equal expected, response.all
     end
   end
