@@ -37,7 +37,7 @@ module IPinfo
     end
 
     def details(ip_address=nil)
-      details = getRequestDetails(ip_address)
+      details = request_details(ip_address)
       if details.has_key? :country
         details[:country_name] = @countries.fetch(details.fetch(:country), nil)
       end
@@ -56,7 +56,7 @@ module IPinfo
     end
 
     protected
-    def getRequestDetails(ip_address=nil)
+    def request_details(ip_address=nil)
       if !@cache.contains(ip_address)
         response = @http_client.get(escape_path(ip_address))
 
