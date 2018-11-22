@@ -35,7 +35,7 @@ Or install it yourself as:
 require 'ipinfo'
 
 access_token = '123456789abc'
-handler = IPinfo::getHandler(access_token)
+handler = IPinfo::handler(access_token)
 ip_address = '216.239.36.21'
 
 details = handler.getDetails(ip_address)
@@ -51,7 +51,7 @@ The `IPinfo.getDetails()` method accepts an IP address as an optional, positiona
 require 'ipinfo'
 
 access_token = '123456789abc'
-handler = IPinfo::getHandler(access_token)
+handler = IPinfo::handler(access_token)
 
 details = handler.getDetails()
 city = details.city # "Emeryville"
@@ -64,7 +64,7 @@ The IPinfo library can be authenticated with your IPinfo API token, which is pas
 
 ```ruby
 access_token = '123456789abc'
-handler = IPinfo::getHandler(access_token)
+handler = IPinfo::handler(access_token)
 ```
 
 #### Details Data
@@ -145,7 +145,7 @@ Cache behavior can be modified by setting the `cache_options` keyword argument. 
 
 ```ruby
 token = '1234'
-handler = IPinfo::getHandler(token, {:ttl => 30, :maxsize => 30})
+handler = IPinfo::handler(token, {:ttl => 30, :maxsize => 30})
 ```
 
 ##### Using a different cache
@@ -153,7 +153,7 @@ handler = IPinfo::getHandler(token, {:ttl => 30, :maxsize => 30})
 It's possible to use a custom cache by creating a child class of the [CacheInterface](https://github.com/jhtimmins/ruby/blob/master/lib/ipinfo/cache/cache_interface.rb) class and passing this into the handler object with the `cache` keyword argument. FYI this is known as [the Strategy Pattern](https://sourcemaking.com/design_patterns/strategy).
 
 ```ruby
-handler = IPinfo.getHandler(token, {:cache => my_fancy_custom_class})
+handler = IPinfo.handler(token, {:cache => my_fancy_custom_class})
 ```
 
 
@@ -162,7 +162,7 @@ Ruby is notorious for having lots of HTTP libraries. While `Net::HTTP` is a reas
 
 ```ruby
 access_token = '123456789abc'
-handler = IPinfo::getHandler(access_token, {:http_client => my_client})
+handler = IPinfo::handler(access_token, {:http_client => my_client})
 ```
 
 Don't forget to bundle the custom HTTP library as well.

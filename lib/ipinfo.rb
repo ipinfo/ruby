@@ -16,7 +16,7 @@ module IPinfo
   RATE_LIMIT_MESSAGE = "To increase your limits, please review our paid plans at https://ipinfo.io/pricing"
 
   class << self
-    def getHandler(access_token=nil, settings={})
+    def handler(access_token=nil, settings={})
       IPinfo.new(access_token, settings)
     end
   end
