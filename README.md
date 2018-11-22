@@ -32,15 +32,15 @@ Or install it yourself as:
 #### Quick Start
 
 ```ruby
->>> require 'ipinfo'
->>> access_token = '123456789abc'
->>> handler = IPinfo::getHandler(access_token)
->>> ip_address = '216.239.36.21'
->>> details = handler.getDetails(ip_address)
->>> details.city
-"Emeryville"
->>> details.loc
-"37.8342,-122.2900"
+require 'ipinfo'
+
+access_token = '123456789abc'
+handler = IPinfo::getHandler(access_token)
+ip_address = '216.239.36.21'
+
+details = handler.getDetails(ip_address)
+city = details.city # Emeryville
+loc = details.loc # 37.8342,-122.2900
 ```
 
 #### Usage
@@ -48,14 +48,14 @@ Or install it yourself as:
 The `IPinfo.getDetails()` method accepts an IP address as an optional, positional argument. If no IP address is specified, the API will return data for the IP address from which it receives the request.
 
 ```ruby
->>> require 'ipinfo'
->>> access_token = '123456789abc'
->>> handler = IPinfo::getHandler(access_token)
->>> details = handler.getDetails()
->>> details.city
-"Emeryville"
->>> details.loc
-"37.8342,-122.2900"
+require 'ipinfo'
+
+access_token = '123456789abc'
+handler = IPinfo::getHandler(access_token)
+
+details = handler.getDetails()
+city = details.city # "Emeryville"
+loc = details.loc # 37.8342,-122.2900
 ```
 
 #### Authentication
@@ -72,8 +72,7 @@ handler = IPinfo::getHandler(access_token)
 `handler.getDetails()` will return a `Response` object that contains all fields listed in the [IPinfo developer docs](https://ipinfo.io/developers/responses#full-response) with a few minor additions. Properties can be accessed directly.
 
 ```ruby
->>> details.hostname
-"cpe-104-175-221-247.socal.res.rr.com"
+hostname = details.hostname # cpe-104-175-221-247.socal.res.rr.com
 ```
 
 ##### Country Name
@@ -81,10 +80,8 @@ handler = IPinfo::getHandler(access_token)
 `details.country_name` will return the country name, as supplied by the `countries.json` file. See below for instructions on changing that file for use with non-English languages. `details.country` will still return country code.
 
 ```ruby
->>> details.country
-"US"
->>> details.country_name
-"United States"
+country = details.country # US
+country_name = details.country_name # United States
 ```
 
 #### IP Address
@@ -92,10 +89,8 @@ handler = IPinfo::getHandler(access_token)
 `details.ip_address` will return the an `IPAddr` object from the [Ruby Standard Library](https://ruby-doc.org/stdlib-2.5.1/libdoc/ipaddr/rdoc/IPAddr.html). `details.ip` will still return a string.
 
 ```ruby
->>> details.ip
-"104.175.221.247"
->>> details.ip_address
-<IPAddr: IPv4:104.175.221.247/255.255.255.255>
+ip = details.ip # 104.175.221.247
+ip_addr = details.ip_address # <IPAddr: IPv4:104.175.221.247/255.255.255.255>
 ```
 
 ##### Longitude and Latitude
@@ -103,12 +98,9 @@ handler = IPinfo::getHandler(access_token)
 `details.latitude` and `details.longitude` will return latitude and longitude, respectively, as strings. `details.loc` will still return a composite string of both values.
 
 ```ruby
->>> details.loc
-"34.0293,-118.3570"
->>> details.latitude
-"34.0293"
->>> details.longitude
-"-118.3570"
+loc = details.loc # 34.0293,-118.3570
+lat = details.latitude # 34.0293
+lon = details.longitude # -118.3570
 ```
 
 ##### Accessing all properties
@@ -116,8 +108,7 @@ handler = IPinfo::getHandler(access_token)
 `details.all` will return all details data as a dictionary.
 
 ```ruby
->>> details.all
-{
+details.all = {
 :asn => {  :asn => 'AS20001',
            :domain => 'twcable.com',
            :name => 'Time Warner Cable Internet LLC',
