@@ -6,7 +6,7 @@ module IPinfo
     def set(key, value)
     end
 
-    def contains(key)
+    def contains?(key)
     end
   end
 end

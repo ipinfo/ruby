@@ -57,7 +57,7 @@ module IPinfo
 
     protected
     def request_details(ip_address=nil)
-      if !@cache.contains(ip_address)
+      if !@cache.contains?(ip_address)
         response = @http_client.get(escape_path(ip_address))
 
         raise RateLimitError.new(RATE_LIMIT_MESSAGE) if response.status.eql?(429)

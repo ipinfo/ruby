@@ -16,7 +16,7 @@ module IPinfo
       @cache[key] = value
     end
 
-    def contains(key)
+    def contains?(key)
       !@cache[key].nil?
     end
   end
