@@ -35,7 +35,7 @@ Or install it yourself as:
 require 'ipinfo'
 
 access_token = '123456789abc'
-handler = IPinfo::handler(access_token)
+handler = IPinfo::create(access_token)
 ip_address = '216.239.36.21'
 
 details = handler.details(ip_address)
@@ -51,7 +51,7 @@ The `IPinfo.details()` method accepts an IP address as an optional, positional a
 require 'ipinfo'
 
 access_token = '123456789abc'
-handler = IPinfo::handler(access_token)
+handler = IPinfo::create(access_token)
 
 details = handler.details()
 city = details.city # "Emeryville"
@@ -64,7 +64,7 @@ The IPinfo library can be authenticated with your IPinfo API token, which is pas
 
 ```ruby
 access_token = '123456789abc'
-handler = IPinfo::handler(access_token)
+handler = IPinfo::create(access_token)
 ```
 
 #### Details Data
@@ -145,7 +145,7 @@ Cache behavior can be modified by setting the `cache_options` keyword argument. 
 
 ```ruby
 token = '1234'
-handler = IPinfo::handler(token, {:ttl => 30, :maxsize => 30})
+handler = IPinfo::create(token, {:ttl => 30, :maxsize => 30})
 ```
 
 ##### Using a different cache
@@ -162,7 +162,7 @@ Ruby is notorious for having lots of HTTP libraries. While `Net::HTTP` is a reas
 
 ```ruby
 access_token = '123456789abc'
-handler = IPinfo::handler(access_token, {:http_client => my_client})
+handler = IPinfo::create(access_token, {:http_client => my_client})
 ```
 
 Don't forget to bundle the custom HTTP library as well.
