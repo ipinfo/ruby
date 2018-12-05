@@ -48,7 +48,7 @@ loc = details.loc # 37.8342,-122.2900
 The `IPinfo.details()` method accepts an IP address as an optional, positional argument. If no IP address is specified, the API will return data for the IP address from which it receives the request.
 
 ```ruby
-require 'ipinfo'
+require 'IPinfo'
 
 access_token = '123456789abc'
 handler = IPinfo::create(access_token)
