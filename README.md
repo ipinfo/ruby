@@ -18,7 +18,7 @@ The free plan is limited to 1,000 requests a day, and doesn't include some of th
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'ipinfo'
+gem 'IPinfo'
 ```
 
 And then execute:
@@ -27,12 +27,12 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install ipinfo
+    $ gem install IPinfo
 
 #### Quick Start
 
 ```ruby
-require 'ipinfo'
+require 'IPinfo'
 
 access_token = '123456789abc'
 handler = IPinfo::create(access_token)
