@@ -10,9 +10,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Stanislav K, James Timmins"]
   spec.email         = ["jameshtimmins@gmail.com"]
 
-  spec.summary       = %q{ This is a ruby wrapper for http://ipinfo.io. }
-  spec.description   = %q{ This is a ruby wrapper for http://ipinfo.io. }
+  spec.summary       = %q{ The official Python library for IPinfo. IPinfo prides itself on being the most reliable, accurate, and in-depth source of IP address data available anywhere. We process terabytes of data to produce our custom IP geolocation, company, carrier and IP type data sets. You can visit our developer docs at https://ipinfo.io/developers. }
+  spec.description   = %q{ The official Python library for IPinfo. IPinfo prides itself on being the most reliable, accurate, and in-depth source of IP address data available anywhere. We process terabytes of data to produce our custom IP geolocation, company, carrier and IP type data sets. You can visit our developer docs at https://ipinfo.io/developers. }
   spec.homepage      = "https://ipinfo.io"
+  spec.license       = "Apache-2.0"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
