@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'pry'
 
 require 'ipaddr'
 require 'json'
@@ -13,7 +14,9 @@ module IPinfo
 
       @all.each do |name, value|
         instance_variable_set("@#{name}", value)
-        self.class.send(:attr_accessor, name)
+        unless self.respond_to?(name)
+          self.class.send(:attr_accessor, name)
+        end
       end
     end
   end

@@ -5,7 +5,7 @@ require_relative '../../lib/ipinfo/adapter'
 class IPinfo::AdapterTest < Minitest::Test
   def test_default
     adapter = IPinfo::Adapter.new
-    assert(adapter.conn.builder.handlers[0] === Faraday::Adapter::NetHttp)
+    assert(adapter.conn.builder.adapter === Faraday::Adapter::NetHttp)
   end
 
   SUPPORTED_ADAPTERS = {
@@ -27,7 +27,7 @@ class IPinfo::AdapterTest < Minitest::Test
   def test_all_possible_adapters
     SUPPORTED_ADAPTERS.keys.each do |key|
       adapter = IPinfo::Adapter.new(nil, key)
-      assert(adapter.conn.builder.handlers[0] === SUPPORTED_ADAPTERS[key])
+      assert(adapter.conn.builder.adapter === SUPPORTED_ADAPTERS[key])
     end
   end
 end

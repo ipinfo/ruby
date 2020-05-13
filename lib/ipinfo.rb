@@ -28,12 +28,12 @@ module IPinfo
 
     def initialize(access_token=nil, settings={})
       @access_token = access_token
-      @http_client = http_client(settings.fetch("http_client", nil))
+      @http_client = my_http_client(settings.fetch("http_client", nil))
 
       maxsize = settings.fetch("maxsize", DEFAULT_CACHE_MAXSIZE)
       ttl = settings.fetch("ttl", DEFAULT_CACHE_TTL)
       @cache = settings.fetch("cache", DefaultCache.new(ttl, maxsize))
-      @countries = countries(settings.fetch('countries', DEFAULT_COUNTRY_FILE))
+      @countries = my_countries(settings.fetch('countries', DEFAULT_COUNTRY_FILE))
     end
 
     def details(ip_address=nil)
@@ -68,7 +68,7 @@ module IPinfo
       @cache.get(ip_address)
     end
 
-    def http_client(http_client=nil)
+    def my_http_client(http_client=nil)
       if http_client
         @http_client = Adapter.new(access_token, http_client)
       else
@@ -76,7 +76,7 @@ module IPinfo
       end
     end
 
-    def countries(filename)
+    def my_countries(filename)
       file = File.read(filename)
       JSON.parse(file)
     end
