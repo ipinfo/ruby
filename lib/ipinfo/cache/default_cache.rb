@@ -1,11 +1,11 @@
 require 'ipinfo/cache/cache_interface'
-require 'lrucache'
+require 'lru_redux'
 
 module IPinfo
   class DefaultCache < CacheInterface
 
     def initialize(ttl, max_size)
-      @cache = LRUCache.new(:ttl => ttl, :max_size => max_size)
+		@cache = LruRedux::TTL::Cache.new(max_size, ttl)
     end
 
     def get(key)
