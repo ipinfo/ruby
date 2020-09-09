@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_runtime_dependency 'faraday', '~> 1'
-  spec.add_runtime_dependency 'json', '~> 2.1'
+  spec.add_runtime_dependency 'json', '~> 2'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
