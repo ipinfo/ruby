@@ -6,16 +6,17 @@ require 'ipinfo/version'
 Gem::Specification.new do |spec|
   spec.name          = "IPinfo"
   spec.version       = IPinfo::VERSION
-  spec.required_ruby_version = ">= 2.0.0"
-  spec.authors       = ["Stanislav K, James Timmins"]
-  spec.email         = ["jameshtimmins@gmail.com"]
+  spec.required_ruby_version = ">= 2.5.0"
+  spec.authors       = ["Stanislav K, James Timmins", "Uman Shahzad"]
+  spec.email         = ["jameshtimmins@gmail.com", "uman@mslm.io"]
 
   spec.summary       = %q{ This is a ruby wrapper for http://ipinfo.io. }
   spec.description   = %q{ This is a ruby wrapper for http://ipinfo.io. }
   spec.homepage      = "https://ipinfo.io"
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
+  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the
+  # 'allowed_push_host' to allow pushing to a single host or delete this
+  # section to allow pushing to any host.
   if spec.respond_to?(:metadata)
     #spec.metadata['allowed_push_host'] = "http://mygemserver.com'"
   else
