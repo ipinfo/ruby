@@ -1,0 +1,9 @@
+AllCops:
+    TargetRubyVersion: 2.7
+
+Layout/IndentationWidth:
+    Width: 4
+
+Layout/LineLength:
+    Enabled: true
+    Max: 80

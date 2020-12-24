@@ -1,3 +1,3 @@
 module IPinfo
-  class RateLimitError < StandardError; end
+    class RateLimitError < StandardError; end
 end
