@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module IPinfo
     class CacheInterface
         class InterfaceNotImplemented < StandardError; end
