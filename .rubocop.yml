@@ -1,5 +1,6 @@
 AllCops:
-    TargetRubyVersion: 2.7
+    TargetRubyVersion: 2.5
+    NewCops: enable
 
 Layout/IndentationWidth:
     Width: 4
@@ -7,3 +8,17 @@ Layout/IndentationWidth:
 Layout/LineLength:
     Enabled: true
     Max: 80
+
+Metrics/MethodLength:
+    Enabled: false
+
+Metrics/AbcSize:
+    Enabled: false
+
+Lint/DuplicateMethods:
+    Enabled: false
+
+Style/MethodCallWithArgsParentheses:
+    AllowParenthesesInMultilineCall: true
+    AllowParenthesesInChaining: true
+    AllowParenthesesInCamelCaseMethod: true
