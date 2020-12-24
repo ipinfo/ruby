@@ -46,7 +46,9 @@ loc = details.loc # 37.8342,-122.2900
 
 #### Usage
 
-The `IPinfo.details()` method accepts an IP address as an optional, positional argument. If no IP address is specified, the API will return data for the IP address from which it receives the request.
+The `IPinfo.details()` method accepts an IP address as an optional, positional
+argument. If no IP address is specified, the API will return data for the IP
+address from which it receives the request.
 
 ```ruby
 require 'IPinfo'
@@ -61,7 +63,9 @@ loc = details.loc # 37.8342,-122.2900
 
 #### Authentication
 
-The IPinfo library can be authenticated with your IPinfo API token, which is passed in as a positional argument. It also works without an authentication token, but in a more limited capacity.
+The IPinfo library can be authenticated with your IPinfo API token, which is
+passed in as a positional argument. It also works without an authentication
+token, but in a more limited capacity.
 
 ```ruby
 access_token = '123456789abc'
@@ -70,7 +74,9 @@ handler = IPinfo::create(access_token)
 
 #### Details Data
 
-`handler.details()` will return a `Response` object that contains all fields listed in the [IPinfo developer docs](https://ipinfo.io/developers/responses#full-response) with a few minor additions. Properties can be accessed directly.
+`handler.details()` will return a `Response` object that contains all fields
+listed in the [IPinfo developerdocs](https://ipinfo.io/developers/responses#full-response)
+with a few minor additions. Properties can be accessed directly.
 
 ```ruby
 hostname = details.hostname # cpe-104-175-221-247.socal.res.rr.com
@@ -78,7 +84,9 @@ hostname = details.hostname # cpe-104-175-221-247.socal.res.rr.com
 
 ##### Country Name
 
-`details.country_name` will return the country name, as supplied by the `countries.json` file. See below for instructions on changing that file for use with non-English languages. `details.country` will still return country code.
+`details.country_name` will return the country name, as supplied by the
+`countries.json` file. See below for instructions on changing that file for use
+with non-English languages. `details.country` will still return country code.
 
 ```ruby
 country = details.country # US
@@ -87,7 +95,9 @@ country_name = details.country_name # United States
 
 #### IP Address
 
-`details.ip_address` will return the an `IPAddr` object from the [Ruby Standard Library](https://ruby-doc.org/stdlib-2.5.1/libdoc/ipaddr/rdoc/IPAddr.html). `details.ip` will still return a string.
+`details.ip_address` will return the an `IPAddr` object from the
+[Ruby Standard Library](https://ruby-doc.org/stdlib-2.5.1/libdoc/ipaddr/rdoc/IPAddr.html).
+`details.ip` will still return a string.
 
 ```ruby
 ip = details.ip # 104.175.221.247
@@ -96,7 +106,9 @@ ip_addr = details.ip_address # <IPAddr: IPv4:104.175.221.247/255.255.255.255>
 
 ##### Longitude and Latitude
 
-`details.latitude` and `details.longitude` will return latitude and longitude, respectively, as strings. `details.loc` will still return a composite string of both values.
+`details.latitude` and `details.longitude` will return latitude and longitude,
+respectively, as strings. `details.loc` will still return a composite string of
+both values.
 
 ```ruby
 loc = details.loc # 34.0293,-118.3570
@@ -135,13 +147,22 @@ details.all = {
 
 #### Caching
 
-In-memory caching of `details` data is provided by default via the [lru_redux](https://github.com/SamSaffron/lru_redux) gem. This uses an LRU (least recently used) cache with a TTL (time to live) by default. This means that values will be cached for the specified duration; if the cache's max size is reached, cache values will be invalidated as necessary, starting with the oldest cached value.
+In-memory caching of `details` data is provided by default via the
+[`lru_redux`](https://github.com/SamSaffron/lru_redux) gem. This uses an LRU
+(least recently used) cache with a TTL (time to live) by default. This means
+that values will be cached for the specified duration; if the cache's max size
+is reached, cache values will be invalidated as necessary, starting with the
+oldest cached value.
 
 ##### Modifying cache options
 
-Cache behavior can be modified by setting the `cache_options` keyword argument. `cache_options` is a dictionary in which the keys are keyword arguments specified in the `cachetools` library. The nesting of keyword arguments is to prevent name collisions between this library and its dependencies.
+Cache behavior can be modified by setting the `cache_options` keyword argument.
+`cache_options` is a dictionary in which the keys are keyword arguments
+specified in the `cachetools` library. The nesting of keyword arguments is to
+prevent name collisions between this library and its dependencies.
 
-* Default maximum cache size: 4096 (multiples of 2 are recommended to increase efficiency)
+* Default maximum cache size: 4096 (multiples of 2 are recommended to increase
+  efficiency)
 * Default TTL: 24 hours (in seconds)
 
 ```ruby
@@ -151,15 +172,22 @@ handler = IPinfo::create(token, {:ttl => 30, :maxsize => 30})
 
 ##### Using a different cache
 
-It's possible to use a custom cache by creating a child class of the [CacheInterface](https://github.com/jhtimmins/ruby/blob/master/lib/ipinfo/cache/cache_interface.rb) class and passing this into the handler object with the `cache` keyword argument. FYI this is known as [the Strategy Pattern](https://sourcemaking.com/design_patterns/strategy).
+It's possible to use a custom cache by creating a child class of the
+[CacheInterface](https://github.com/jhtimmins/ruby/blob/master/lib/ipinfo/cache/cache_interface.rb)
+class and passing this into the handler object with the `cache` keyword
+argument. FYI this is known as
+[the Strategy Pattern](https://sourcemaking.com/design_patterns/strategy).
 
 ```ruby
 handler = IPinfo.handler(token, {:cache => my_fancy_custom_class})
 ```
 
-
 ### Using a different HTTP library
-Ruby is notorious for having lots of HTTP libraries. While `Net::HTTP` is a reasonable default, you can set any other that [Faraday supports](https://github.com/lostisland/faraday/tree/29feeb92e3413d38ffc1fd3a3479bb48a0915730#faraday) if you prefer.
+
+Ruby is notorious for having lots of HTTP libraries. While `Net::HTTP` is a
+reasonable default, you can set any other that
+[Faradaysupports](https://github.com/lostisland/faraday/tree/29feeb92e3413d38ffc1fd3a3479bb48a0915730#faraday)
+if you prefer.
 
 ```ruby
 access_token = '123456789abc'
@@ -170,7 +198,10 @@ Don't forget to bundle the custom HTTP library as well.
 
 #### Internationalization
 
-When looking up an IP address, the response object includes a `details.country_name` attribute which includes the country name based on American English. It is possible to return the country name in other languages by setting the `countries` setting when creating the `IPinfo` object.
+When looking up an IP address, the response object includes a
+`details.country_name` attribute which includes the country name based on
+American English. It is possible to return the country name in other languages
+by setting the `countries` setting when creating the `IPinfo` object.
 
 The file must be a `.json` file with the following structure:
 
