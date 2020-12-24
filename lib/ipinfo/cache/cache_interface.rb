@@ -1,16 +1,17 @@
 module IPinfo
-  class CacheInterface
-    class InterfaceNotImplemented < StandardError; end
-    def get(key)
-      raise InterfaceNotImplemented
-    end
+    class CacheInterface
+        class InterfaceNotImplemented < StandardError; end
 
-    def set(key, value)
-      raise InterfaceNotImplemented
-    end
+        def get(_key)
+            raise InterfaceNotImplemented
+        end
 
-    def contains?(key)
-      raise InterfaceNotImplemented
+        def set(_key, _value)
+            raise InterfaceNotImplemented
+        end
+
+        def contains?(_key)
+            raise InterfaceNotImplemented
+        end
     end
-  end
 end
