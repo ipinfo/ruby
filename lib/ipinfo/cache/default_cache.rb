@@ -6,6 +6,7 @@ require 'lru_redux'
 module IPinfo
     class DefaultCache < CacheInterface
         def initialize(ttl, max_size)
+            super
             @cache = LruRedux::TTL::Cache.new(max_size, ttl)
         end
 

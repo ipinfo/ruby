@@ -14,7 +14,8 @@ module IPinfo
     DEFAULT_CACHE_TTL = 60 * 60 * 24
     DEFAULT_COUNTRY_FILE = File.join(File.dirname(__FILE__),
                                      'ipinfo/countries.json')
-    RATE_LIMIT_MESSAGE = 'To increase your limits, please review our paid plans at https://ipinfo.io/pricing'
+    RATE_LIMIT_MESSAGE = 'To increase your limits, please review our ' \
+                         'paid plans at https://ipinfo.io/pricing'
 
     class << self
         def create(access_token = nil, settings = {})
@@ -40,8 +41,7 @@ module IPinfo
             details = request_details(ip_address)
             if details.key? :country
                 details[:country_name] =
-                    @countries.fetch(details.fetch(:country),
-                                     nil)
+                    @countries.fetch(details.fetch(:country), nil)
             end
 
             if details.key? :ip
