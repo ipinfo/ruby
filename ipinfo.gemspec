@@ -1,6 +1,6 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'ipinfo/version'
 
 Gem::Specification.new do |spec|
@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'faraday', '~> 1.0'
   spec.add_runtime_dependency 'json', '~> 2.1'
+  spec.add_runtime_dependency 'lru_redux', '~> 1.1'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})

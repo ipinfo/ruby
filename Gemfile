@@ -10,7 +10,7 @@ group :development do
   gem 'minitest-vcr'
   gem 'minitest-reporters'
   gem 'webmock'
-  gem 'lru_redux'
+  gem 'rubocop'
 
   platforms :mri do
     # to avoid problems, bring Byebug in on just versions of Ruby under which
