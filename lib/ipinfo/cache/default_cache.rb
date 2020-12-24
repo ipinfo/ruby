@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ipinfo/cache/cache_interface'
 require 'lru_redux'
 

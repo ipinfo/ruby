@@ -38,18 +38,18 @@ module IPinfo
 
         def details(ip_address = nil)
             details = request_details(ip_address)
-            if details.has_key? :country
+            if details.key? :country
                 details[:country_name] =
                     @countries.fetch(details.fetch(:country),
                                      nil)
             end
 
-            if details.has_key? :ip
+            if details.key? :ip
                 details[:ip_address] =
                     IPAddr.new(details.fetch(:ip))
             end
 
-            if details.has_key? :loc
+            if details.key? :loc
                 loc = details.fetch(:loc).split(',')
                 details[:latitude] = loc[0]
                 details[:longitude] = loc[1]
