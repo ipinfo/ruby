@@ -9,6 +9,9 @@ Layout/LineLength:
     Enabled: true
     Max: 80
 
+Lint/MissingSuper:
+    Enabled: false
+
 Metrics/MethodLength:
     Enabled: false
 
@@ -18,7 +21,19 @@ Metrics/AbcSize:
 Lint/DuplicateMethods:
     Enabled: false
 
+Style/Documentation:
+    Enabled: false
+
+Style/ClassAndModuleChildren:
+    Enabled: false
+
 Style/MethodCallWithArgsParentheses:
+    EnforcedStyle: require_parentheses
+    IgnoreMacros: false
+    IgnoredPatterns: []
     AllowParenthesesInMultilineCall: true
     AllowParenthesesInChaining: true
     AllowParenthesesInCamelCaseMethod: true
+
+Style/MethodCallWithoutArgsParentheses:
+    Enabled: false

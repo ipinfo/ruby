@@ -22,76 +22,77 @@ module IPinfo
             IPinfo.new(access_token, settings)
         end
     end
+end
 
-    class IPinfo
-        attr_accessor :access_token, :countries, :http_client
+class IPinfo::IPinfo
+    include IPinfo
+    attr_accessor :access_token, :countries, :httpc
 
-        def initialize(access_token = nil, settings = {})
-            @access_token = access_token
-            @http_client = http_client(settings.fetch('http_client', nil))
+    def initialize(access_token = nil, settings = {})
+        @access_token = access_token
+        @httpc = prepare_http_client(settings.fetch('http_client', nil))
 
-            maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
-            ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
-            @cache = settings.fetch('cache', DefaultCache.new(ttl, maxsize))
-            @countries = countries(settings.fetch('countries',
-                                                  DEFAULT_COUNTRY_FILE))
+        maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
+        ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
+        @cache = settings.fetch('cache', DefaultCache.new(ttl, maxsize))
+        @countries = prepare_countries(settings.fetch('countries',
+                                                      DEFAULT_COUNTRY_FILE))
+    end
+
+    def details(ip_address = nil)
+        details = request_details(ip_address)
+        if details.key? :country
+            details[:country_name] =
+                @countries.fetch(details.fetch(:country), nil)
         end
 
-        def details(ip_address = nil)
-            details = request_details(ip_address)
-            if details.key? :country
-                details[:country_name] =
-                    @countries.fetch(details.fetch(:country), nil)
+        if details.key? :ip
+            details[:ip_address] =
+                IPAddr.new(details.fetch(:ip))
+        end
+
+        if details.key? :loc
+            loc = details.fetch(:loc).split(',')
+            details[:latitude] = loc[0]
+            details[:longitude] = loc[1]
+        end
+
+        Response.new(details)
+    end
+
+    protected
+
+    def request_details(ip_address = nil)
+        unless @cache.contains?(ip_address)
+            response = @httpc.get(escape_path(ip_address))
+
+            if response.status.eql?(429)
+                raise RateLimitError,
+                      RATE_LIMIT_MESSAGE
             end
 
-            if details.key? :ip
-                details[:ip_address] =
-                    IPAddr.new(details.fetch(:ip))
-            end
-
-            if details.key? :loc
-                loc = details.fetch(:loc).split(',')
-                details[:latitude] = loc[0]
-                details[:longitude] = loc[1]
-            end
-
-            Response.new(details)
+            details = JSON.parse(response.body, symbolize_names: true)
+            @cache.set(ip_address, details)
         end
+        @cache.get(ip_address)
+    end
 
-        protected
+    def prepare_http_client(httpc = nil)
+        @httpc = if httpc
+                     Adapter.new(access_token, httpc)
+                 else
+                     Adapter.new(access_token)
+                 end
+    end
 
-        def request_details(ip_address = nil)
-            unless @cache.contains?(ip_address)
-                response = @http_client.get(escape_path(ip_address))
+    def prepare_countries(filename)
+        file = File.read(filename)
+        JSON.parse(file)
+    end
 
-                if response.status.eql?(429)
-                    raise RateLimitError,
-                          RATE_LIMIT_MESSAGE
-                end
+    private
 
-                details = JSON.parse(response.body, symbolize_names: true)
-                @cache.set(ip_address, details)
-            end
-            @cache.get(ip_address)
-        end
-
-        def http_client(http_client = nil)
-            @http_client = if http_client
-                               Adapter.new(access_token, http_client)
-                           else
-                               Adapter.new(access_token)
-                           end
-        end
-
-        def countries(filename)
-            file = File.read(filename)
-            JSON.parse(file)
-        end
-
-        private
-
-        def escape_path(ip)
-            ip ? "/#{CGI.escape(ip)}" : '/'
-        end
+    def escape_path(ip)
+        ip ? "/#{CGI.escape(ip)}" : '/'
     end
 end

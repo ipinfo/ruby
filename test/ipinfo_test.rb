@@ -12,8 +12,8 @@ class IPinfoTest < Minitest::Test
 
     def test_set_adapter
         ipinfo = IPinfo.create(nil, { http_client: :excon })
-        assert ipinfo.http_client = :excon
-        ipinfo.http_client = nil
+        assert(ipinfo.httpc = :excon)
+        ipinfo.httpc = nil
     end
 
     def test_set_access_token
@@ -28,13 +28,14 @@ class IPinfoTest < Minitest::Test
     end
 
     def test_rate_limit_error
-        ipinfo = IPinfo.create
+        ipinfo = IPinfo.create()
         stub_request(:get, 'https://ipinfo.io').to_return(body: '', status: 429)
         error = assert_raises(IPinfo::RateLimitError) { ipinfo.details }
-        assert_equal \
+        assert_equal(
             'To increase your limits, please review our paid plans at ' \
             'https://ipinfo.io/pricing', \
             error.message
+        )
     end
 
     def test_lookup_without_arg
@@ -54,13 +55,13 @@ class IPinfoTest < Minitest::Test
         }
 
         VCR.use_cassette('current machine search') do
-            ipinfo = IPinfo.create
+            ipinfo = IPinfo.create()
             response = ipinfo.details
             assert_instance_of IPinfo::Response, response
-            assert_equal expected[:ip], response.ip
+            assert_equal(expected[:ip], response.ip)
             assert_instance_of IPAddr, response.ip_address
-            assert_equal expected[:country_name], response.country_name
-            assert_equal expected, response.all
+            assert_equal(expected[:country_name], response.country_name)
+            assert_equal(expected, response.all)
         end
     end
 
@@ -79,9 +80,9 @@ class IPinfoTest < Minitest::Test
         }
 
         VCR.use_cassette('search with ip6') do
-            ipinfo = IPinfo.create
+            ipinfo = IPinfo.create()
             response = ipinfo.details(IP6)
-            assert_equal expected, response.all
+            assert_equal(expected, response.all)
         end
     end
 
@@ -100,9 +101,9 @@ class IPinfoTest < Minitest::Test
         }
 
         VCR.use_cassette('search with random ip') do
-            ipinfo = IPinfo.create
+            ipinfo = IPinfo.create()
             response = ipinfo.details(IP4)
-            assert_equal expected, response.all
+            assert_equal(expected, response.all)
         end
     end
 end
