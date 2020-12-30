@@ -64,9 +64,7 @@ class IPinfo::IPinfo
 
     def request_details(ip_address = nil)
         res = @cache.get(ip_address)
-        if res != nil
-            return res
-        end
+        return res unless res.nil?
 
         response = @httpc.get(escape_path(ip_address))
 
