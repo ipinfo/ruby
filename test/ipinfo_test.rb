@@ -83,7 +83,7 @@ class IPinfoTest < Minitest::Test
         ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
 
         # multiple checks for cache
-        for _ in 0...5
+        (0...5).each do |_|
             resp = ipinfo.details(TEST_IPV6)
             assert_ip6(resp)
         end
@@ -151,7 +151,7 @@ class IPinfoTest < Minitest::Test
         ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
 
         # multiple checks for cache
-        for _ in 0...5
+        (0...5).each do |_|
             resp = ipinfo.details(TEST_IPV4)
             assert_ip4(resp)
         end
