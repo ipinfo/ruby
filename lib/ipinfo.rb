@@ -63,18 +63,21 @@ class IPinfo::IPinfo
     protected
 
     def request_details(ip_address = nil)
-        unless @cache.contains?(ip_address)
-            response = @httpc.get(escape_path(ip_address))
-
-            if response.status.eql?(429)
-                raise RateLimitError,
-                      RATE_LIMIT_MESSAGE
-            end
-
-            details = JSON.parse(response.body, symbolize_names: true)
-            @cache.set(ip_address, details)
+        res = @cache.get(ip_address)
+        if res != nil
+            return res
         end
-        @cache.get(ip_address)
+
+        response = @httpc.get(escape_path(ip_address))
+
+        if response.status.eql?(429)
+            raise RateLimitError,
+                  RATE_LIMIT_MESSAGE
+        end
+
+        details = JSON.parse(response.body, symbolize_names: true)
+        @cache.set(ip_address, details)
+        details
     end
 
     def prepare_http_client(httpc = nil)
