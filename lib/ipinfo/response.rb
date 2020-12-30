@@ -11,7 +11,9 @@ class IPinfo::Response
 
         @all.each do |name, value|
             instance_variable_set("@#{name}", value)
-            self.class.send(:attr_accessor, name)
+
+            c = class << self; self end
+            c.send(:attr_accessor, name)
         end
     end
 end

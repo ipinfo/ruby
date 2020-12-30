@@ -18,6 +18,9 @@ Metrics/MethodLength:
 Metrics/AbcSize:
     Enabled: false
 
+Metrics/ClassLength:
+    Enabled: false
+
 Lint/DuplicateMethods:
     Enabled: false
 
