@@ -16,16 +16,6 @@ Gem::Specification.new do |spec|
     spec.description   = ' This is a ruby wrapper for http://ipinfo.io. '
     spec.homepage      = 'https://ipinfo.io'
 
-    # Prevent pushing this gem to RubyGems.org. To allow pushes either set the
-    # 'allowed_push_host' to allow pushing to a single host or delete this
-    # section to allow pushing to any host.
-    if spec.respond_to?(:metadata)
-    # spec.metadata['allowed_push_host'] = "http://mygemserver.com'"
-    else
-        raise 'RubyGems 2.0 or newer is required to protect against ' \
-          'public gem pushes.'
-    end
-
     spec.add_runtime_dependency 'faraday', '~> 1.0'
     spec.add_runtime_dependency 'json', '~> 2.1'
     spec.add_runtime_dependency 'lru_redux', '~> 1.1'
