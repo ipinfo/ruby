@@ -40,3 +40,9 @@ Style/MethodCallWithArgsParentheses:
 
 Style/MethodCallWithoutArgsParentheses:
     Enabled: false
+
+Naming/FileName:
+    Enabled: false
+
+Naming/PredicateName:
+    Enabled: false
