@@ -33,7 +33,7 @@ Or install it yourself as:
 #### Quick Start
 
 ```ruby
-require 'IPinfo'
+require 'ipinfo'
 
 access_token = '123456789abc'
 handler = IPinfo::create(access_token)
@@ -44,6 +44,18 @@ city = details.city # Emeryville
 loc = details.loc # 37.8342,-122.2900
 ```
 
+##### Note about Rails 6+
+
+If using this in package in Rails 6+, the zeitwerk auto-loader may not properly
+recognize the gem due to its naming conventions (uppercased gem/module name).
+See issue https://github.com/ipinfo/ruby/issues/24.
+
+A workaround is to insert this in `application.rb`:
+
+```ruby
+require 'ipinfo' unless defined?(IPinfo)
+```
+
 #### Usage
 
 The `IPinfo.details()` method accepts an IP address as an optional, positional
@@ -51,7 +63,7 @@ argument. If no IP address is specified, the API will return data for the IP
 address from which it receives the request.
 
 ```ruby
-require 'IPinfo'
+require 'ipinfo'
 
 access_token = '123456789abc'
 handler = IPinfo::create(access_token)
