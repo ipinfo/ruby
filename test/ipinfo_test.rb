@@ -55,6 +55,7 @@ class IPinfoTest < Minitest::Test
                 "vpn": false,
                 "proxy": false,
                 "tor": false,
+                "relay": false,
                 "hosting": false
             }
         )
@@ -127,6 +128,7 @@ class IPinfoTest < Minitest::Test
                 "vpn": false,
                 "proxy": false,
                 "tor": false,
+                "relay": false,
                 "hosting": false
             }
         )
