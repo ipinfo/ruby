@@ -56,7 +56,8 @@ class IPinfoTest < Minitest::Test
                 "proxy": false,
                 "tor": false,
                 "relay": false,
-                "hosting": false
+                "hosting": false,
+                "service": ''
             }
         )
         assert_equal(
@@ -129,7 +130,8 @@ class IPinfoTest < Minitest::Test
                 "proxy": false,
                 "tor": false,
                 "relay": false,
-                "hosting": false
+                "hosting": false,
+                "service": ''
             }
         )
         assert_equal(
