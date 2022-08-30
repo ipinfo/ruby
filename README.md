@@ -104,6 +104,16 @@ with non-English languages. `details.country` will still return country code.
 country = details.country # US
 country_name = details.country_name # United States
 ```
+##### EU Country
+
+`details.is_eu` will return true if the country is a member of EU , as supplied by the `eu.json` file.
+
+```ruby
+is_eu = details.is_eu # false
+```
+It is possible to change the file by setting the `eucountries` setting when creating the `IPinfo` object.
+
+The file must be a `.json` file with the following [structure.](lib/ipinfo/eu.json)
 
 #### IP Address
 
