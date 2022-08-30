@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require_relative './test_helper'
 
 class IPinfoTest < Minitest::Test
     TEST_IPV4 = '8.8.8.8'
@@ -26,6 +26,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(resp.region, 'New Jersey')
         assert_equal(resp.country, 'US')
         assert_equal(resp.country_name, 'United States')
+        assert_equal(resp.is_eu, false)
         assert_equal(resp.loc, '39.9340,-74.8910')
         assert_equal(resp.latitude, '39.9340')
         assert_equal(resp.longitude, '-74.8910')
@@ -100,6 +101,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(resp.region, 'California')
         assert_equal(resp.country, 'US')
         assert_equal(resp.country_name, 'United States')
+        assert_equal(resp.is_eu, false)
         assert_equal(resp.loc, '37.4056,-122.0775')
         assert_equal(resp.latitude, '37.4056')
         assert_equal(resp.longitude, '-122.0775')
