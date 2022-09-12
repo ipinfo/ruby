@@ -69,7 +69,7 @@ class IPinfo::IPinfo
     protected
 
     def request_details(ip_address = nil)
-        res = @cache.get(ip_address)
+        res = @cache.get("1:#{ip_address}")
         return res unless res.nil?
 
         response = @httpc.get(escape_path(ip_address))
@@ -80,7 +80,7 @@ class IPinfo::IPinfo
         end
 
         details = JSON.parse(response.body, symbolize_names: true)
-        @cache.set(ip_address, details)
+        @cache.set("1:#{ip_address}", details)
         details
     end
 
