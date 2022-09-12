@@ -66,7 +66,7 @@ class IPinfo::IPinfo
         Response.new(details)
     end
 
-    def locations(ips)
+    def get_map_url(ips)
         if !ips.kind_of?(Array)
             return JSON.generate({:error => 'Invalid input. Array required!'})
         end
@@ -77,7 +77,8 @@ class IPinfo::IPinfo
         json_ips = JSON.generate({:ips => ips})
         res = @httpc.post('/tools/map', json_ips)
 
-        res.body
+        obj = JSON.parse(res.body)
+        obj['reportUrl']
     end
 
     protected
