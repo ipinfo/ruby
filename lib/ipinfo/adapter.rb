@@ -23,6 +23,10 @@ class IPinfo::Adapter
         end
     end
 
+    def post(uri, body)
+        @conn.post uri, body
+    end
+
     private
 
     attr_reader :token

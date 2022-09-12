@@ -66,6 +66,20 @@ class IPinfo::IPinfo
         Response.new(details)
     end
 
+    def locations(ips)
+        if !ips.kind_of?(Array)
+            return JSON.generate({:error => 'Invalid input. Array required!'})
+        end
+        if ips.length > 500000
+            return JSON.generate({:error => 'No more than 500,000 ips allowed!'})
+        end
+
+        json_ips = JSON.generate({:ips => ips})
+        res = @httpc.post('/tools/map', json_ips)
+
+        res.body
+    end
+
     protected
 
     def request_details(ip_address = nil)
