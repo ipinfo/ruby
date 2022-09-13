@@ -81,6 +81,13 @@ class IPinfo::IPinfo
         obj['reportUrl']
     end
 
+    def batch_requests(url_array, api_token)
+        json_arr = JSON.generate(url_array)
+        res = @httpc.post("/batch?token=#{api_token}", json_arr, 5)
+
+        JSON.parse(res.body)
+    end
+
     protected
 
     def request_details(ip_address = nil)
