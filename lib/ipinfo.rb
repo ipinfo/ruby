@@ -84,7 +84,7 @@ class IPinfo::IPinfo
     protected
 
     def request_details(ip_address = nil)
-        res = @cache.get(ip_address)
+        res = @cache.get(cache_key(ip_address))
         return res unless res.nil?
 
         response = @httpc.get(escape_path(ip_address))
@@ -95,7 +95,7 @@ class IPinfo::IPinfo
         end
 
         details = JSON.parse(response.body, symbolize_names: true)
-        @cache.set(ip_address, details)
+        @cache.set(cache_key(ip_address), details)
         details
     end
 
@@ -116,5 +116,9 @@ class IPinfo::IPinfo
 
     def escape_path(ip)
         ip ? "/#{CGI.escape(ip)}" : '/'
+    end
+
+    def cache_key(ip)
+        "1:#{ip}"
     end
 end
