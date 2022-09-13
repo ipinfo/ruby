@@ -82,10 +82,43 @@ class IPinfo::IPinfo
     end
 
     def batch_requests(url_array, api_token)
-        json_arr = JSON.generate(url_array)
-        res = @httpc.post("/batch?token=#{api_token}", json_arr, 5)
+        result = Hash.new
+        lookup_ips = []
 
-        JSON.parse(res.body)
+        url_array.each { |url|
+            ip = @cache.get(cache_key(url))
+
+            unless ip.nil?
+                result.store(url, ip)
+            else
+                lookup_ips << url
+            end
+        }
+
+        if lookup_ips.empty?
+            return result
+        end
+
+        begin
+            lookup_ips.each_slice(1000){ |ips|
+                json_arr = JSON.generate(lookup_ips)
+                res = @httpc.post("/batch?token=#{api_token}", json_arr, 5)
+
+                raise StandardError, "Request Quota Exceeded" if res.status == 429
+
+                data = JSON.parse(res.body)
+                data.each { |key, val|
+                    @cache.set(cache_key(key), val)
+                }
+
+                result.merge!(data)
+            }
+
+        rescue StandardError => e
+            return e.message
+        end
+
+        result
     end
 
     protected
