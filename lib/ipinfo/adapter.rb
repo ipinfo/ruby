@@ -23,8 +23,11 @@ class IPinfo::Adapter
         end
     end
 
-    def post(uri, body)
-        @conn.post uri, body
+    def post(uri, body, timeout = 2)
+        @conn.post(uri) do |req|
+            req.body = body
+            req.options.timeout = timeout
+        end
     end
 
     private
