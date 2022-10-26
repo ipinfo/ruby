@@ -114,7 +114,7 @@ class IPinfoTest < Minitest::Test
                 "name": 'Google LLC',
                 "domain": 'google.com',
                 "route": '8.8.8.0/24',
-                "type": 'business'
+                "type": 'hosting'
             }
         )
         assert_equal(
@@ -122,7 +122,7 @@ class IPinfoTest < Minitest::Test
             {
                 "name": 'Google LLC',
                 "domain": 'google.com',
-                "type": 'business'
+                "type": 'hosting'
             }
         )
         assert_equal(
@@ -132,7 +132,7 @@ class IPinfoTest < Minitest::Test
                 "proxy": false,
                 "tor": false,
                 "relay": false,
-                "hosting": false,
+                "hosting": true,
                 "service": ''
             }
         )
