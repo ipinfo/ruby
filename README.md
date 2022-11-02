@@ -117,6 +117,20 @@ It is possible to change the file by setting the `eu_countries` setting when cre
 
 The file must be a `.json` file with the [following structure](lib/ipinfo/eu.json).
 
+##### Country Flag
+
+`details.country_flag` will return `emoji` and `unicode` of a county's flag, as supplied by the `eu.json` file.
+
+```ruby
+country_flag = details.country_flag # {"emoji"=>"🇺🇸", "unicode"=>"U+1F1FA U+1F1F8"}
+country_flag_emoji = details.country_flag['emoji'] # 🇺🇸
+country_flag_unicode = details.country_flag['unicode'] # U+1F1FA U+1F1F8
+```
+
+It is possible to change the file by setting the `countries_flags` setting when creating the `IPinfo` object.
+
+The file must be a `.json` file with the [following structure](lib/ipinfo/flags.json).
+
 #### IP Address
 
 `details.ip_address` will return the an `IPAddr` object from the

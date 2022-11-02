@@ -16,6 +16,8 @@ module IPinfo
                                      'ipinfo/countries.json')
     DEFAULT_EU_COUNTRIES_FILE = File.join(File.dirname(__FILE__),
                                      'ipinfo/eu.json')
+    DEFAULT_COUNTRIES_FLAG_FILE = File.join(File.dirname(__FILE__),
+                                     'ipinfo/flags.json')
     RATE_LIMIT_MESSAGE = 'To increase your limits, please review our ' \
                          'paid plans at https://ipinfo.io/pricing'
 
@@ -41,6 +43,8 @@ class IPinfo::IPinfo
                                                       DEFAULT_COUNTRY_FILE))
         @eu_countries = prepare_json(settings.fetch('eu_countries',
                                                       DEFAULT_EU_COUNTRIES_FILE))
+        @countries_flags = prepare_json(settings.fetch('countries_flags',
+                                                      DEFAULT_COUNTRIES_FLAG_FILE))
     end
 
     def details(ip_address = nil)
@@ -50,6 +54,8 @@ class IPinfo::IPinfo
                 @countries.fetch(details.fetch(:country), nil)
             details[:is_eu] =
                 @eu_countries.include?(details.fetch(:country))
+            details[:country_flag] =
+                @countries_flags.fetch(details.fetch(:country), nil)
         end
 
         if details.key? :ip
