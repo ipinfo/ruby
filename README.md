@@ -127,9 +127,19 @@ country_flag_emoji = details.country_flag['emoji'] # 🇺🇸
 country_flag_unicode = details.country_flag['unicode'] # U+1F1FA U+1F1F8
 ```
 
-It is possible to change the file by setting the `countries_flags` setting when creating the `IPinfo` object.
+##### Country Currency
 
-The file must be a `.json` file with the [following structure](lib/ipinfo/flags.json).
+`details.country_currency` will return `code` and `symbol` of a county's currency, as supplied by the `currency.json` file.
+
+```ruby
+country_currency = details.country_currency # {"code"=>"USD", "symbol"=>"$"}
+country_currency_code = details.country_currency['code'] # USD
+country_currency_symbol = details.country_currency['symbol'] # $
+```
+
+It is possible to change the file by setting the `countries_currencies` setting when creating the `IPinfo` object.
+
+The file must be a `.json` file with the [following structure](lib/ipinfo/currency.json).
 
 #### IP Address
 
