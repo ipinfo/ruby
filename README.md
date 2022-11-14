@@ -141,6 +141,20 @@ It is possible to change the file by setting the `countries_currencies` setting 
 
 The file must be a `.json` file with the [following structure](lib/ipinfo/currency.json).
 
+##### Continent
+
+`details.continent` will return `code` and `name` of the continent, as supplied by the `continent.json` file.
+
+```ruby
+continent = details.continent # {"code"=>"NA", "name"=>"North America"}
+continent_code = details.continent['code'] # NA
+continent_name = details.continent['name'] # North America
+```
+
+It is possible to change the file by setting the `continets` setting when creating the `IPinfo` object.
+
+The file must be a `.json` file with the [following structure](lib/ipinfo/continent.json).
+
 #### IP Address
 
 `details.ip_address` will return the an `IPAddr` object from the
