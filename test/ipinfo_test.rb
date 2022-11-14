@@ -106,6 +106,8 @@ class IPinfoTest < Minitest::Test
         assert_equal(resp.country_flag['unicode'], 'U+1F1FA U+1F1F8')
         assert_equal(resp.country_currency['code'], 'USD')
         assert_equal(resp.country_currency['symbol'], '$')
+        assert_equal(resp.continent['code'], 'NA')
+        assert_equal(resp.continent['name'], 'North America')
         assert_equal(resp.loc, '37.4056,-122.0775')
         assert_equal(resp.latitude, '37.4056')
         assert_equal(resp.longitude, '-122.0775')
