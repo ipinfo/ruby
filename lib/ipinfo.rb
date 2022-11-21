@@ -8,6 +8,7 @@ require 'ipinfo/errors'
 require 'ipinfo/response'
 require 'ipinfo/version'
 require 'json'
+require_relative 'ipinfo/ipAddressMatcher'
 
 module IPinfo
     DEFAULT_CACHE_MAXSIZE = 4096
@@ -142,6 +143,15 @@ class IPinfo::IPinfo
     protected
 
     def request_details(ip_address = nil)
+        if isBogon(ip_address)
+            details[:ip] = ip_address
+            details[:bogon] = true
+            details[:ip_address] = IPAddr.new(ip_address)
+
+            @cache.set(cache_key(ip_address), details)
+            return details
+        end
+
         res = @cache.get(cache_key(ip_address))
         return res unless res.nil?
 
@@ -171,6 +181,15 @@ class IPinfo::IPinfo
     end
 
     private
+
+    def isBogon(ip)
+        if ip.nil?
+            return false
+        end
+
+        matcher_object = IpAddressMatcher.new(ip)
+        matcher_object.matches
+    end
 
     def escape_path(ip)
         ip ? "/#{CGI.escape(ip)}" : '/'
