@@ -148,7 +148,6 @@ class IPinfo::IPinfo
             details[:bogon] = true
             details[:ip_address] = IPAddr.new(ip_address)
 
-            @cache.set(cache_key(ip_address), details)
             return details
         end
 
