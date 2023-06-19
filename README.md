@@ -119,12 +119,20 @@ The file must be a `.json` file with the [following structure](lib/ipinfo/eu.jso
 
 ##### Country Flag
 
-`details.country_flag` will return `emoji` and `unicode` of a county's flag, as supplied by the `eu.json` file.
+`details.country_flag` will return `emoji` and `unicode` of a country's flag, as supplied by the `eu.json` file.
 
 ```ruby
 country_flag = details.country_flag # {"emoji"=>"🇺🇸", "unicode"=>"U+1F1FA U+1F1F8"}
 country_flag_emoji = details.country_flag['emoji'] # 🇺🇸
 country_flag_unicode = details.country_flag['unicode'] # U+1F1FA U+1F1F8
+```
+
+##### Country Flag URL
+
+`details.country_flag_url` will return the link of a country's flag image, hosted by ipinfo.io.
+
+```ruby
+country_flag = details.country_flag_url # {"https://cdn.ipinfo.io/static/images/countries-flags/US.svg"}
 ```
 
 ##### Country Currency
