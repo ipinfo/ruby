@@ -129,7 +129,7 @@ country_flag_unicode = details.country_flag['unicode'] # U+1F1FA U+1F1F8
 
 ##### Country Flag URL
 
-`details.country_flag_url` will return the link of a country's flag image, hosted by ipinfo.io.
+`details.country_flag_url` will return a public link to the country's flag image as an SVG which can be used anywhere.
 
 ```ruby
 country_flag = details.country_flag_url # {"https://cdn.ipinfo.io/static/images/countries-flags/US.svg"}
