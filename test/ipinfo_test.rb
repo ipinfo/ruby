@@ -77,6 +77,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(
             resp.domains,
             {
+                "page": 0,
                 "total": 0,
                 "domains": []
             }
