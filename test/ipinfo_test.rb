@@ -32,6 +32,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(resp.longitude, '-74.8910')
         assert_equal(resp.postal, '08054')
         assert_equal(resp.timezone, 'America/New_York')
+        assert_equal(resp.country_flag_url, 'https://cdn.ipinfo.io/static/images/countries-flags/US.svg')
         assert_equal(
             resp.asn,
             {
@@ -76,6 +77,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(
             resp.domains,
             {
+                "page": 0,
                 "total": 0,
                 "domains": []
             }
@@ -104,6 +106,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(resp.is_eu, false)
         assert_equal(resp.country_flag['emoji'], '🇺🇸')
         assert_equal(resp.country_flag['unicode'], 'U+1F1FA U+1F1F8')
+        assert_equal(resp.country_flag_url, 'https://cdn.ipinfo.io/static/images/countries-flags/US.svg')
         assert_equal(resp.country_currency['code'], 'USD')
         assert_equal(resp.country_currency['symbol'], '$')
         assert_equal(resp.continent['code'], 'NA')

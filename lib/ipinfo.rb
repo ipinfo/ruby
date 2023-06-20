@@ -25,6 +25,10 @@ module IPinfo
                                      'ipinfo/continent.json')
     RATE_LIMIT_MESSAGE = 'To increase your limits, please review our ' \
                          'paid plans at https://ipinfo.io/pricing'
+    # Base URL to get country flag image link.
+    # "PK" -> "https://cdn.ipinfo.io/static/images/countries-flags/PK.svg"
+    COUNTRY_FLAGS_URL = "https://cdn.ipinfo.io/static/images/countries-flags/"
+
 
     class << self
         def create(access_token = nil, settings = {})
@@ -69,6 +73,7 @@ class IPinfo::IPinfo
                 @countries_currencies.fetch(details.fetch(:country), nil)
             details[:continent] = 
                 @continents.fetch(details.fetch(:country), nil)
+            details[:country_flag_url] = COUNTRY_FLAGS_URL + details.fetch(:country) + ".svg"
         end
 
         if details.key? :ip
