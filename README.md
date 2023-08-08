@@ -1,8 +1,8 @@
 # [<img src="https://ipinfo.io/static/ipinfo-small.svg" alt="IPinfo" width="24"/>](https://ipinfo.io/) IPinfo Ruby Client Library
 
-This is the official Ruby client library for the [IPinfo.io](https://ipinfo.io) IP address API, allowing you to lookup your own IP address, or get any of the following details for an IP:
- - [IP geolocation data](https://ipinfo.io/ip-geolocation-api) (city, region, country, postal code, latitude and longitude)
- - [ASN information](https://ipinfo.io/asn-api) (ISP or network operator, associated domain name, and type, such as business, hosting or company)
+This is the official Ruby client library for the [IPinfo.io](https://ipinfo.io) IP address API, allowing you to look up your own IP address, or get any of the following details for an IP:
+ - [IP geolocation data](https://ipinfo.io/ip-geolocation-api) (city, region, country, postal code, latitude, and longitude)
+ - [ASN information](https://ipinfo.io/asn-api) (ISP or network operator, associated domain name, and type, such as business, hosting, or company)
  - [Firmographic data](https://ipinfo.io/ip-company-api) (the name and domain of the business that uses the IP address)
  - [Carrier details](https://ipinfo.io/ip-carrier-api) (the name of the mobile carrier and MNC and MCC for that carrier if the IP is used exclusively for mobile traffic)
 
@@ -10,7 +10,7 @@ Check all the data we have for your IP address [here](https://ipinfo.io/what-is-
 
 ### Getting Started
 
-You'll need an IPinfo API access token, which you can get by singing up for a free account at [https://ipinfo.io/signup](https://ipinfo.io/signup).
+You'll need an IPinfo API access token, which you can get by signing up for a free account at [https://ipinfo.io/signup](https://ipinfo.io/signup).
 
 The free plan is limited to 50,000 requests per month, and doesn't include some of the data fields such as IP type and company data. To enable all the data fields and additional request volumes see [https://ipinfo.io/pricing](https://ipinfo.io/pricing)
 
@@ -46,7 +46,7 @@ loc = details.loc # 37.8342,-122.2900
 
 ##### Note about Rails 6+
 
-If using this in package in Rails 6+, the zeitwerk auto-loader may not properly
+If using this package in Rails 6+, the Zeitwerk auto-loader may not properly
 recognize the gem due to its naming conventions (uppercased gem/module name).
 See issue https://github.com/ipinfo/ruby/issues/24.
 
@@ -98,7 +98,7 @@ hostname = details.hostname # cpe-104-175-221-247.socal.res.rr.com
 
 `details.country_name` will return the country name, as supplied by the
 `countries.json` file. See below for instructions on changing that file for use
-with non-English languages. `details.country` will still return country code.
+with non-English languages. `details.country` will still return the country code.
 
 ```ruby
 country = details.country # US
@@ -137,7 +137,7 @@ country_flag = details.country_flag_url # {"https://cdn.ipinfo.io/static/images/
 
 ##### Country Currency
 
-`details.country_currency` will return `code` and `symbol` of a county's currency, as supplied by the `currency.json` file.
+`details.country_currency` will return `code` and `symbol` of a country's currency, as supplied by the `currency.json` file.
 
 ```ruby
 country_currency = details.country_currency # {"code"=>"USD", "symbol"=>"$"}
@@ -159,13 +159,13 @@ continent_code = details.continent['code'] # NA
 continent_name = details.continent['name'] # North America
 ```
 
-It is possible to change the file by setting the `continets` setting when creating the `IPinfo` object.
+It is possible to change the file by setting the `continents` setting when creating the `IPinfo` object.
 
 The file must be a `.json` file with the [following structure](lib/ipinfo/continent.json).
 
 #### IP Address
 
-`details.ip_address` will return the an `IPAddr` object from the
+`details.ip_address` will return the `IPAddr` object from the
 [Ruby Standard Library](https://ruby-doc.org/stdlib-2.5.1/libdoc/ipaddr/rdoc/IPAddr.html).
 `details.ip` will still return a string.
 
@@ -287,7 +287,7 @@ The file must be a `.json` file with the following structure:
 
 ### Other Libraries
 
-There are official IPinfo client libraries available for many languages including PHP, Go, Java, Ruby, and many popular frameworks such as Django, Rails and Laravel. There are also many third party libraries and integrations available for our API.
+There are official IPinfo client libraries available for many languages including PHP, Go, Java, Ruby, and many popular frameworks such as Django, Rails, and Laravel. There are also many third-party libraries and integrations available for our API.
 
 ### About IPinfo
 
