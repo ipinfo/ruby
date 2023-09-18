@@ -27,5 +27,5 @@ jobs:
 
       - name: Run tests
         env: 
-            IPINFO_TOKEN: ${{ secrets.IPINFO_TOKEN }}
+          IPINFO_TOKEN: ${{ secrets.IPINFO_TOKEN }}
         run: bundle exec rake
