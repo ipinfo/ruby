@@ -42,7 +42,7 @@ class IPinfo::Adapter
 
     def default_headers
         headers = {
-            'User-Agent' => 'IPinfoClient/Ruby/1.0',
+            'User-Agent' => 'IPinfoClient/Ruby/1.1.0',
             'Accept' => 'application/json'
         }
         headers['Authorization'] = "Bearer #{CGI.escape(token)}" if token
