@@ -9,26 +9,17 @@ require 'ipinfo/response'
 require 'ipinfo/version'
 require 'json'
 require_relative 'ipinfo/ipAddressMatcher'
+require_relative 'ipinfo/countriesData'
 
 module IPinfo
+    include CountriesData
     DEFAULT_CACHE_MAXSIZE = 4096
     DEFAULT_CACHE_TTL = 60 * 60 * 24
-    DEFAULT_COUNTRY_FILE = File.join(File.dirname(__FILE__),
-                                     'ipinfo/countries.json')
-    DEFAULT_EU_COUNTRIES_FILE = File.join(File.dirname(__FILE__),
-                                     'ipinfo/eu.json')
-    DEFAULT_COUNTRIES_FLAG_FILE = File.join(File.dirname(__FILE__),
-                                     'ipinfo/flags.json')
-    DEFAULT_COUNTRIES_CURRENCIES_FILE = File.join(File.dirname(__FILE__),
-                                     'ipinfo/currency.json')
-    DEFAULT_CONTINENT_FILE = File.join(File.dirname(__FILE__),
-                                     'ipinfo/continent.json')
     RATE_LIMIT_MESSAGE = 'To increase your limits, please review our ' \
                          'paid plans at https://ipinfo.io/pricing'
     # Base URL to get country flag image link.
     # "PK" -> "https://cdn.ipinfo.io/static/images/countries-flags/PK.svg"
     COUNTRY_FLAGS_URL = "https://cdn.ipinfo.io/static/images/countries-flags/"
-
 
     class << self
         def create(access_token = nil, settings = {})
@@ -48,16 +39,11 @@ class IPinfo::IPinfo
         maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
         ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
         @cache = settings.fetch('cache', DefaultCache.new(ttl, maxsize))
-        @countries = prepare_json(settings.fetch('countries',
-                                                      DEFAULT_COUNTRY_FILE))
-        @eu_countries = prepare_json(settings.fetch('eu_countries',
-                                                      DEFAULT_EU_COUNTRIES_FILE))
-        @countries_flags = prepare_json(settings.fetch('countries_flags',
-                                                      DEFAULT_COUNTRIES_FLAG_FILE))
-        @countries_currencies = prepare_json(settings.fetch('countries_currencies',
-                                                      DEFAULT_COUNTRIES_CURRENCIES_FILE))
-        @continents = prepare_json(settings.fetch('continents',
-                                                      DEFAULT_CONTINENT_FILE))
+        @countries = settings.fetch('countries', DEFAULT_COUNTRY_LIST)
+        @eu_countries = settings.fetch('eu_countries', DEFAULT_EU_COUNTRIES_LIST)
+        @countries_flags = settings.fetch('countries_flags', DEFAULT_COUNTRIES_FLAG_LIST)
+        @countries_currencies = settings.fetch('countries_currencies', DEFAULT_COUNTRIES_CURRENCIES_LIST)
+        @continents = settings.fetch('continents', DEFAULT_CONTINENT_LIST)
     end
 
     def details(ip_address = nil)

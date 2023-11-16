@@ -96,8 +96,8 @@ hostname = details.hostname # cpe-104-175-221-247.socal.res.rr.com
 
 ##### Country Name
 
-`details.country_name` will return the country name, as supplied by the
-`countries.json` file. See below for instructions on changing that file for use
+`details.country_name` will return the country name, as defined by `DEFAULT_COUNTRY_LIST`
+within `countriesData.rb`. See below for instructions on changing that file for use
 with non-English languages. `details.country` will still return the country code.
 
 ```ruby
@@ -107,7 +107,8 @@ country_name = details.country_name # United States
 
 ##### European Union (EU) Country
 
-`details.is_eu` will return `true` if the country is a member of the European Union (EU), as supplied by the `eu.json` file.
+`details.is_eu` will return `true` if the country is a member of the European Union (EU)
+, as defined by `DEFAULT_EU_COUNTRIES_LIST` within `countriesData.rb`.
 
 ```ruby
 is_eu = details.is_eu # false
@@ -115,11 +116,10 @@ is_eu = details.is_eu # false
 
 It is possible to change the file by setting the `eu_countries` setting when creating the `IPinfo` object.
 
-The file must be a `.json` file with the [following structure](lib/ipinfo/eu.json).
-
 ##### Country Flag
 
-`details.country_flag` will return `emoji` and `unicode` of a country's flag, as supplied by the `eu.json` file.
+`details.country_flag` will return `emoji` and `unicode` of a country's flag, as defined by
+`DEFAULT_COUNTRIES_FLAG_LIST` within `countriesData.rb`.
 
 ```ruby
 country_flag = details.country_flag # {"emoji"=>"🇺🇸", "unicode"=>"U+1F1FA U+1F1F8"}
@@ -137,7 +137,8 @@ country_flag = details.country_flag_url # {"https://cdn.ipinfo.io/static/images/
 
 ##### Country Currency
 
-`details.country_currency` will return `code` and `symbol` of a country's currency, as supplied by the `currency.json` file.
+`details.country_currency` will return `code` and `symbol` of a country's currency, as defined by
+`DEFAULT_COUNTRIES_CURRENCIES_LIST` within `countriesData.rb`.
 
 ```ruby
 country_currency = details.country_currency # {"code"=>"USD", "symbol"=>"$"}
@@ -147,11 +148,10 @@ country_currency_symbol = details.country_currency['symbol'] # $
 
 It is possible to change the file by setting the `countries_currencies` setting when creating the `IPinfo` object.
 
-The file must be a `.json` file with the [following structure](lib/ipinfo/currency.json).
-
 ##### Continent
 
-`details.continent` will return `code` and `name` of the continent, as supplied by the `continent.json` file.
+`details.continent` will return `code` and `name` of the continent, as defined by
+`DEFAULT_CONTINENT_LIST` within `countriesData.rb`.
 
 ```ruby
 continent = details.continent # {"code"=>"NA", "name"=>"North America"}
@@ -160,8 +160,6 @@ continent_name = details.continent['name'] # North America
 ```
 
 It is possible to change the file by setting the `continents` setting when creating the `IPinfo` object.
-
-The file must be a `.json` file with the [following structure](lib/ipinfo/continent.json).
 
 #### IP Address
 
@@ -273,14 +271,12 @@ When looking up an IP address, the response object includes a
 American English. It is possible to return the country name in other languages
 by setting the `countries` setting when creating the `IPinfo` object.
 
-The file must be a `.json` file with the following structure:
-
 ```
 {
- "BD": "Bangladesh",
- "BE": "Belgium",
- "BF": "Burkina Faso",
- "BG": "Bulgaria"
+ "BD" => "Bangladesh",
+ "BE" => "Belgium",
+ "BF" => "Burkina Faso",
+ "BG" => "Bulgaria"
  ...
 }
 ```
