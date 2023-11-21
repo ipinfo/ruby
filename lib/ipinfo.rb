@@ -165,11 +165,6 @@ class IPinfo::IPinfo
                  end
     end
 
-    def prepare_json(filename)
-        file = File.read(filename)
-        JSON.parse(file)
-    end
-
     private
 
     def isBogon(ip)
