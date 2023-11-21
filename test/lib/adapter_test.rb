@@ -3,6 +3,12 @@
 require 'test_helper'
 require_relative '../../lib/ipinfo/adapter'
 
+require 'faraday/net_http_persistent'
+require 'faraday/typhoeus'
+require 'faraday/patron'
+require 'faraday/httpclient'
+require 'faraday/excon'
+
 class IPinfo::AdapterTest < Minitest::Test
     def test_default
         adapter = IPinfo::Adapter.new
@@ -17,8 +23,6 @@ class IPinfo::AdapterTest < Minitest::Test
         net_http_persistent: Faraday::Adapter::NetHttpPersistent,
         typhoeus: Faraday::Adapter::Typhoeus,
         patron: Faraday::Adapter::Patron,
-        em_synchrony: Faraday::Adapter::EMSynchrony,
-        em_http: Faraday::Adapter::EMHttp,
         excon: Faraday::Adapter::Excon,
         httpclient: Faraday::Adapter::HTTPClient
     }.freeze

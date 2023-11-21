@@ -149,7 +149,7 @@ class IPinfoTest < Minitest::Test
             resp.abuse,
             {
                 "address": 'US, CA, Mountain View, ' \
-                           '1600 Amphitheatre Parkway, 94043',
+                        '1600 Amphitheatre Parkway, 94043',
                 "country": 'US',
                 "email": 'network-abuse@google.com',
                 "name": 'Abuse',
