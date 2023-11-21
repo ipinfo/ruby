@@ -48,7 +48,7 @@ class IPinfoTest < Minitest::Test
             {
                 "name": 'Comcast Cable Communications, LLC',
                 "domain": 'comcast.com',
-                "type": 'isp'
+                "type": ''
             }
         )
         assert_equal(
@@ -77,6 +77,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(
             resp.domains,
             {
+                "page": 0,
                 "total": 0,
                 "domains": []
             }
