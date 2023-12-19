@@ -22,8 +22,7 @@ class IPinfoTest < Minitest::Test
     def test_set_adapter_v6
         ipinfo = IPinfo.create(
             ENV['IPINFO_TOKEN'],
-            { http_client: :excon },
-            { 'host_type' => :v6 }
+            { http_client: :excon, 'host_type' => :v6 }
         )
 
         assert(ipinfo.httpc = :excon)
