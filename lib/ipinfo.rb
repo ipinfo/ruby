@@ -30,10 +30,11 @@ end
 
 class IPinfo::IPinfo
     include IPinfo
-    attr_accessor :access_token, :countries, :httpc
+    attr_accessor :access_token, :countries, :httpc, :host_type
 
     def initialize(access_token = nil, settings = {})
         @access_token = access_token
+        @host_type = settings.fetch('host_type', :v4)
         @httpc = prepare_http_client(settings.fetch('http_client', nil))
 
         maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
@@ -57,7 +58,7 @@ class IPinfo::IPinfo
                 @countries_flags.fetch(details.fetch(:country), nil)
             details[:country_currency] =
                 @countries_currencies.fetch(details.fetch(:country), nil)
-            details[:continent] = 
+            details[:continent] =
                 @continents.fetch(details.fetch(:country), nil)
             details[:country_flag_url] = COUNTRY_FLAGS_URL + details.fetch(:country) + ".svg"
         end
@@ -159,9 +160,9 @@ class IPinfo::IPinfo
 
     def prepare_http_client(httpc = nil)
         @httpc = if httpc
-                     Adapter.new(access_token, httpc)
+                     Adapter.new(access_token, httpc, host_type)
                  else
-                     Adapter.new(access_token)
+                     Adapter.new(access_token, :net_http, host_type)
                  end
     end
 

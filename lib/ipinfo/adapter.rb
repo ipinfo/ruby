@@ -6,11 +6,13 @@ require 'ipinfo/mod'
 
 class IPinfo::Adapter
     HOST = 'ipinfo.io'
+    HOST_V6 = 'v6.ipinfo.io'
 
     attr_reader :conn
 
-    def initialize(token = nil, adapter = :net_http)
+    def initialize(token = nil, adapter = :net_http, host_type = :v4)
         @token = token
+        @host = (host_type == :v6) ? HOST_V6 : HOST
         @conn = connection(adapter)
     end
 
@@ -32,17 +34,17 @@ class IPinfo::Adapter
 
     private
 
-    attr_reader :token
+    attr_reader :token, :host
 
     def connection(adapter)
-        Faraday.new(url: "https://#{HOST}") do |conn|
+        Faraday.new(url: "https://#{@host}") do |conn|
             conn.adapter(adapter)
         end
     end
 
     def default_headers
         headers = {
-            'User-Agent' => 'IPinfoClient/Ruby/2.1.0',
+            'User-Agent' => 'IPinfoClient/Ruby/2.2.0',
             'Accept' => 'application/json'
         }
         headers['Authorization'] = "Bearer #{CGI.escape(token)}" if token

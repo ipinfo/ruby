@@ -10,10 +10,20 @@ class IPinfoTest < Minitest::Test
         refute_nil ::IPinfo::VERSION
     end
 
-    def test_set_adapter
+    def test_set_adapter_v4
         ipinfo = IPinfo.create(
             ENV['IPINFO_TOKEN'],
             { http_client: :excon }
+        )
+
+        assert(ipinfo.httpc = :excon)
+    end
+
+    def test_set_adapter_v6
+        ipinfo = IPinfo.create(
+            ENV['IPINFO_TOKEN'],
+            { http_client: :excon },
+            { 'host_type' => :v6 }
         )
 
         assert(ipinfo.httpc = :excon)
@@ -48,7 +58,7 @@ class IPinfoTest < Minitest::Test
             {
                 "name": 'Comcast Cable Communications, LLC',
                 "domain": 'comcast.com',
-                "type": ''
+                "type": 'isp'
             }
         )
         assert_equal(
@@ -86,6 +96,16 @@ class IPinfoTest < Minitest::Test
 
     def test_lookup_ip6
         ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+
+        # multiple checks for cache
+        (0...5).each do |_|
+            resp = ipinfo.details(TEST_IPV6)
+            assert_ip6(resp)
+        end
+    end
+
+    def test_lookup_ip6_on_host_v6
+        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'], { 'host_type' => :v6 })
 
         # multiple checks for cache
         (0...5).each do |_|
@@ -149,7 +169,7 @@ class IPinfoTest < Minitest::Test
             resp.abuse,
             {
                 "address": 'US, CA, Mountain View, ' \
-                        '1600 Amphitheatre Parkway, 94043',
+                           '1600 Amphitheatre Parkway, 94043',
                 "country": 'US',
                 "email": 'network-abuse@google.com',
                 "name": 'Abuse',
@@ -164,6 +184,16 @@ class IPinfoTest < Minitest::Test
 
     def test_lookup_ip4
         ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+
+        # multiple checks for cache
+        (0...5).each do |_|
+            resp = ipinfo.details(TEST_IPV4)
+            assert_ip4(resp)
+        end
+    end
+
+    def test_lookup_ip4_on_host_v6
+        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'], { 'host_type' => :v6 })
 
         # multiple checks for cache
         (0...5).each do |_|
