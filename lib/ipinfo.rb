@@ -33,18 +33,11 @@ class IPinfo::IPinfo
     attr_accessor :access_token, :countries, :httpc, :host_type
 
     def initialize(access_token = nil, settings = {})
-        @access_token = access_token
-        @host_type = settings.fetch('host_type', :v4)
-        @httpc = prepare_http_client(settings.fetch('http_client', nil))
+        initialize_base(access_token, settings, host_type: :v4)
+    end
 
-        maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
-        ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
-        @cache = settings.fetch('cache', DefaultCache.new(ttl, maxsize))
-        @countries = settings.fetch('countries', DEFAULT_COUNTRY_LIST)
-        @eu_countries = settings.fetch('eu_countries', DEFAULT_EU_COUNTRIES_LIST)
-        @countries_flags = settings.fetch('countries_flags', DEFAULT_COUNTRIES_FLAG_LIST)
-        @countries_currencies = settings.fetch('countries_currencies', DEFAULT_COUNTRIES_CURRENCIES_LIST)
-        @continents = settings.fetch('continents', DEFAULT_CONTINENT_LIST)
+    def initialize_v6(access_token = nil, settings = {})
+        initialize_base(access_token, settings, host_type: :v6)
     end
 
     def details(ip_address = nil)
@@ -159,14 +152,26 @@ class IPinfo::IPinfo
     end
 
     def prepare_http_client(httpc = nil)
-        @httpc = if httpc
-                     Adapter.new(access_token, httpc, host_type)
-                 else
-                     Adapter.new(access_token, :net_http, host_type)
-                 end
+        @httpc = httpc ? Adapter.new(access_token, httpc, host_type) :
+                        Adapter.new(access_token, :net_http, host_type)
     end
 
     private
+
+    def initialize_base(access_token = nil, settings = {}, host_type: :v4)
+        @access_token = access_token
+        @host_type = host_type
+        @httpc = prepare_http_client(settings.fetch('http_client', nil))
+
+        maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
+        ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
+        @cache = settings.fetch('cache', DefaultCache.new(ttl, maxsize))
+        @countries = settings.fetch('countries', DEFAULT_COUNTRY_LIST)
+        @eu_countries = settings.fetch('eu_countries', DEFAULT_EU_COUNTRIES_LIST)
+        @countries_flags = settings.fetch('countries_flags', DEFAULT_COUNTRIES_FLAG_LIST)
+        @countries_currencies = settings.fetch('countries_currencies', DEFAULT_COUNTRIES_CURRENCIES_LIST)
+        @continents = settings.fetch('continents', DEFAULT_CONTINENT_LIST)
+    end
 
     def isBogon(ip)
         if ip.nil?

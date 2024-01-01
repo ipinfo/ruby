@@ -44,6 +44,21 @@ city = details.city # Emeryville
 loc = details.loc # 37.8342,-122.2900
 ```
 
+#### To make an IPv6 request
+
+```ruby
+require 'ipinfo'
+
+access_token = '123456789abc'
+handler = IPinfo::create(access_token)
+handler.initialize_v6
+ip_address = '216.239.36.21'
+
+details = handler.details(ip_address)
+city = details.city # Emeryville
+loc = details.loc # 37.8342,-122.2900
+``````
+
 ##### Note about Rails 6+
 
 If using this package in Rails 6+, the Zeitwerk auto-loader may not properly

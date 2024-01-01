@@ -3,6 +3,7 @@
 require 'faraday'
 require 'cgi'
 require 'ipinfo/mod'
+require_relative './version.rb'
 
 class IPinfo::Adapter
     HOST = 'ipinfo.io'
@@ -44,7 +45,7 @@ class IPinfo::Adapter
 
     def default_headers
         headers = {
-            'User-Agent' => 'IPinfoClient/Ruby/2.2.0',
+            'User-Agent' => 'IPinfoClient/Ruby/#{IPinfo::VERSION}',
             'Accept' => 'application/json'
         }
         headers['Authorization'] = "Bearer #{CGI.escape(token)}" if token

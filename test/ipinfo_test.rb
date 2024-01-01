@@ -22,8 +22,9 @@ class IPinfoTest < Minitest::Test
     def test_set_adapter_v6
         ipinfo = IPinfo.create(
             ENV['IPINFO_TOKEN'],
-            { http_client: :excon, 'host_type' => :v6 }
+            { http_client: :excon }
         )
+        ipinfo.initialize_v6
 
         assert(ipinfo.httpc = :excon)
     end
@@ -103,15 +104,17 @@ class IPinfoTest < Minitest::Test
         end
     end
 
-    def test_lookup_ip6_on_host_v6
-        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'], { 'host_type' => :v6 })
+    # # Requires IPv6 support
+    # def test_lookup_ip6_on_host_v6
+    #     ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+    #     ipinfo.initialize_v6
 
-        # multiple checks for cache
-        (0...5).each do |_|
-            resp = ipinfo.details(TEST_IPV6)
-            assert_ip6(resp)
-        end
-    end
+    #     # multiple checks for cache
+    #     (0...5).each do |_|
+    #         resp = ipinfo.details(TEST_IPV6)
+    #         assert_ip6(resp)
+    #     end
+    # end
 
     def assert_ip4(resp)
         assert_equal(resp.ip, TEST_IPV4)
@@ -191,13 +194,15 @@ class IPinfoTest < Minitest::Test
         end
     end
 
-    def test_lookup_ip4_on_host_v6
-        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'], { 'host_type' => :v6 })
+    # # Requires IPv6 support
+    # def test_lookup_ip4_on_host_v6
+    #     ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+    #     ipinfo.initialize_v6
 
-        # multiple checks for cache
-        (0...5).each do |_|
-            resp = ipinfo.details(TEST_IPV4)
-            assert_ip4(resp)
-        end
-    end
+    #     # multiple checks for cache
+    #     (0...5).each do |_|
+    #         resp = ipinfo.details(TEST_IPV4)
+    #         assert_ip4(resp)
+    #     end
+    # end
 end
