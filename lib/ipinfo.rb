@@ -90,21 +90,16 @@ class IPinfo::IPinfo
         details
     end
 
-    def prepare_http_client(httpc = nil)
-        @httpc = httpc ? Adapter.new(access_token, httpc, host_type) :
-                        Adapter.new(access_token, :net_http, host_type)
-    end
+    def prepare_http_client(settings = {}, host_type: :v4)
+        return if @host_type && @host_type == host_type
 
-    def init_adapter(settings = {}, host_type: :v4)
-        if @host_type.nil? || @host_type != host_type
-            @host_type = host_type
-            @httpc = prepare_http_client(settings.fetch('http_client', nil))
-        end
+        @host_type = host_type
+        @httpc = Adapter.new(access_token, settings['http_client'] || :net_http, host_type)
     end
 
     def initialize_base(access_token = nil, settings = {}, host_type: :v4)
         @access_token = access_token
-        init_adapter(settings, host_type: host_type)
+        prepare_http_client(settings, host_type: host_type)
 
         maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
         ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
@@ -117,7 +112,7 @@ class IPinfo::IPinfo
     end
 
     def details_base(ip_address, settings = {}, host_type: :v4)
-        init_adapter(settings, host_type: host_type)
+        prepare_http_client(settings, host_type: host_type)
         details = request_details(ip_address)
         if details.key? :country
             details[:country_name] =
@@ -148,7 +143,7 @@ class IPinfo::IPinfo
     end
 
     def get_map_url_base(ips, settings = {}, host_type: :v4)
-        init_adapter(settings, host_type: host_type)
+        prepare_http_client(settings, host_type: host_type)
         if !ips.kind_of?(Array)
             return JSON.generate({:error => 'Invalid input. Array required!'})
         end
@@ -164,7 +159,7 @@ class IPinfo::IPinfo
     end
 
     def batch_requests_base(url_array, api_token, settings = {}, host_type: :v4)
-        init_adapter(settings, host_type: host_type)
+        prepare_http_client(settings, host_type: host_type)
         result = Hash.new
         lookup_ips = []
 
