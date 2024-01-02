@@ -96,9 +96,7 @@ class IPinfo::IPinfo
     end
 
     def init_adapter(settings = {}, host_type: :v4)
-        puts "old val: #{@host_type}, new val: #{host_type}"
         if @host_type.nil? || @host_type != host_type
-            puts "value changing"
             @host_type = host_type
             @httpc = prepare_http_client(settings.fetch('http_client', nil))
         end
