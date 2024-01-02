@@ -40,24 +40,10 @@ handler = IPinfo::create(access_token)
 ip_address = '216.239.36.21'
 
 details = handler.details(ip_address)
+details_v6 = handler.details_v6() # to get details from ipinfo's IPv6 host
 city = details.city # Emeryville
 loc = details.loc # 37.8342,-122.2900
 ```
-
-#### To make an IPv6 request
-
-```ruby
-require 'ipinfo'
-
-access_token = '123456789abc'
-handler = IPinfo::create(access_token)
-handler.initialize_v6
-ip_address = '216.239.36.21'
-
-details = handler.details(ip_address)
-city = details.city # Emeryville
-loc = details.loc # 37.8342,-122.2900
-``````
 
 ##### Note about Rails 6+
 
@@ -73,7 +59,7 @@ require 'ipinfo' unless defined?(IPinfo)
 
 #### Usage
 
-The `IPinfo.details()` method accepts an IP address as an optional, positional
+The `IPinfo.details()` and `IPinfo.details_v6()` methods accept an IP address as an optional, positional
 argument. If no IP address is specified, the API will return data for the IP
 address from which it receives the request.
 
@@ -84,6 +70,7 @@ access_token = '123456789abc'
 handler = IPinfo::create(access_token)
 
 details = handler.details()
+details_v6 = handler.details_v6() # to get details from ipinfo's IPv6 host
 city = details.city # "Emeryville"
 loc = details.loc # 37.8342,-122.2900
 ```
@@ -101,7 +88,7 @@ handler = IPinfo::create(access_token)
 
 #### Details Data
 
-`handler.details()` will return a `Response` object that contains all fields
+`handler.details()` and `handler.details_v6` will return a `Response` object that contains all fields
 listed in the [IPinfo developerdocs](https://ipinfo.io/developers/responses#full-response)
 with a few minor additions. Properties can be accessed directly.
 

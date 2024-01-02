@@ -41,6 +41,85 @@ class IPinfo::IPinfo
     end
 
     def details(ip_address = nil)
+        details_base(ip_address, host_type: :v4)
+    end
+
+    def details_v6(ip_address = nil)
+        details_base(ip_address, host_type: :v6)
+    end
+
+    def get_map_url(ips)
+        get_map_url_base(ips, host_type: :v4)
+    end
+
+    def get_map_url_v6(ips)
+        get_map_url_base(ips, host_type: :v6)
+    end
+
+    def batch_requests(url_array, api_token)
+        batch_requests_base(url_array, api_token, host_type: :v4)
+    end
+
+    def batch_requests_v6(url_array, api_token)
+        batch_requests_base(url_array, api_token, host_type: :v6)
+    end
+
+    private
+
+    def request_details(ip_address = nil)
+        if isBogon(ip_address)
+            details[:ip] = ip_address
+            details[:bogon] = true
+            details[:ip_address] = IPAddr.new(ip_address)
+
+            return details
+        end
+
+        res = @cache.get(cache_key(ip_address))
+        return res unless res.nil?
+
+        response = @httpc.get(escape_path(ip_address))
+
+        if response.status.eql?(429)
+            raise RateLimitError,
+                  RATE_LIMIT_MESSAGE
+        end
+
+        details = JSON.parse(response.body, symbolize_names: true)
+        @cache.set(cache_key(ip_address), details)
+        details
+    end
+
+    def prepare_http_client(httpc = nil)
+        @httpc = httpc ? Adapter.new(access_token, httpc, host_type) :
+                        Adapter.new(access_token, :net_http, host_type)
+    end
+
+    def init_adapter(settings = {}, host_type: :v4)
+        puts "old val: #{@host_type}, new val: #{host_type}"
+        if @host_type.nil? || @host_type != host_type
+            puts "value changing"
+            @host_type = host_type
+            @httpc = prepare_http_client(settings.fetch('http_client', nil))
+        end
+    end
+
+    def initialize_base(access_token = nil, settings = {}, host_type: :v4)
+        @access_token = access_token
+        init_adapter(settings, host_type: host_type)
+
+        maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
+        ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
+        @cache = settings.fetch('cache', DefaultCache.new(ttl, maxsize))
+        @countries = settings.fetch('countries', DEFAULT_COUNTRY_LIST)
+        @eu_countries = settings.fetch('eu_countries', DEFAULT_EU_COUNTRIES_LIST)
+        @countries_flags = settings.fetch('countries_flags', DEFAULT_COUNTRIES_FLAG_LIST)
+        @countries_currencies = settings.fetch('countries_currencies', DEFAULT_COUNTRIES_CURRENCIES_LIST)
+        @continents = settings.fetch('continents', DEFAULT_CONTINENT_LIST)
+    end
+
+    def details_base(ip_address, settings = {}, host_type: :v4)
+        init_adapter(settings, host_type: host_type)
         details = request_details(ip_address)
         if details.key? :country
             details[:country_name] =
@@ -70,7 +149,8 @@ class IPinfo::IPinfo
         Response.new(details)
     end
 
-    def get_map_url(ips)
+    def get_map_url_base(ips, settings = {}, host_type: :v4)
+        init_adapter(settings, host_type: host_type)
         if !ips.kind_of?(Array)
             return JSON.generate({:error => 'Invalid input. Array required!'})
         end
@@ -85,7 +165,8 @@ class IPinfo::IPinfo
         obj['reportUrl']
     end
 
-    def batch_requests(url_array, api_token)
+    def batch_requests_base(url_array, api_token, settings = {}, host_type: :v4)
+        init_adapter(settings, host_type: host_type)
         result = Hash.new
         lookup_ips = []
 
@@ -123,54 +204,6 @@ class IPinfo::IPinfo
         end
 
         result
-    end
-
-    protected
-
-    def request_details(ip_address = nil)
-        if isBogon(ip_address)
-            details[:ip] = ip_address
-            details[:bogon] = true
-            details[:ip_address] = IPAddr.new(ip_address)
-
-            return details
-        end
-
-        res = @cache.get(cache_key(ip_address))
-        return res unless res.nil?
-
-        response = @httpc.get(escape_path(ip_address))
-
-        if response.status.eql?(429)
-            raise RateLimitError,
-                  RATE_LIMIT_MESSAGE
-        end
-
-        details = JSON.parse(response.body, symbolize_names: true)
-        @cache.set(cache_key(ip_address), details)
-        details
-    end
-
-    def prepare_http_client(httpc = nil)
-        @httpc = httpc ? Adapter.new(access_token, httpc, host_type) :
-                        Adapter.new(access_token, :net_http, host_type)
-    end
-
-    private
-
-    def initialize_base(access_token = nil, settings = {}, host_type: :v4)
-        @access_token = access_token
-        @host_type = host_type
-        @httpc = prepare_http_client(settings.fetch('http_client', nil))
-
-        maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
-        ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
-        @cache = settings.fetch('cache', DefaultCache.new(ttl, maxsize))
-        @countries = settings.fetch('countries', DEFAULT_COUNTRY_LIST)
-        @eu_countries = settings.fetch('eu_countries', DEFAULT_EU_COUNTRIES_LIST)
-        @countries_flags = settings.fetch('countries_flags', DEFAULT_COUNTRIES_FLAG_LIST)
-        @countries_currencies = settings.fetch('countries_currencies', DEFAULT_COUNTRIES_CURRENCIES_LIST)
-        @continents = settings.fetch('continents', DEFAULT_CONTINENT_LIST)
     end
 
     def isBogon(ip)
