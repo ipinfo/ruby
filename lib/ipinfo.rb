@@ -30,76 +30,11 @@ end
 
 class IPinfo::IPinfo
     include IPinfo
-    attr_accessor :access_token, :countries, :httpc, :host_type
+    attr_accessor :access_token, :countries, :httpc
 
     def initialize(access_token = nil, settings = {})
-        initialize_base(access_token, settings, host_type: :v4)
-    end
-
-    def initialize_v6(access_token = nil, settings = {})
-        initialize_base(access_token, settings, host_type: :v6)
-    end
-
-    def details(ip_address = nil)
-        details_base(ip_address, host_type: :v4)
-    end
-
-    def details_v6(ip_address = nil)
-        details_base(ip_address, host_type: :v6)
-    end
-
-    def get_map_url(ips)
-        get_map_url_base(ips, host_type: :v4)
-    end
-
-    def get_map_url_v6(ips)
-        get_map_url_base(ips, host_type: :v6)
-    end
-
-    def batch_requests(url_array, api_token)
-        batch_requests_base(url_array, api_token, host_type: :v4)
-    end
-
-    def batch_requests_v6(url_array, api_token)
-        batch_requests_base(url_array, api_token, host_type: :v6)
-    end
-
-    private
-
-    def request_details(ip_address = nil)
-        if isBogon(ip_address)
-            details[:ip] = ip_address
-            details[:bogon] = true
-            details[:ip_address] = IPAddr.new(ip_address)
-
-            return details
-        end
-
-        res = @cache.get(cache_key(ip_address))
-        return res unless res.nil?
-
-        response = @httpc.get(escape_path(ip_address))
-
-        if response.status.eql?(429)
-            raise RateLimitError,
-                  RATE_LIMIT_MESSAGE
-        end
-
-        details = JSON.parse(response.body, symbolize_names: true)
-        @cache.set(cache_key(ip_address), details)
-        details
-    end
-
-    def prepare_http_client(settings = {}, host_type: :v4)
-        return if @host_type && @host_type == host_type
-
-        @host_type = host_type
-        @httpc = Adapter.new(access_token, settings['http_client'] || :net_http, host_type)
-    end
-
-    def initialize_base(access_token = nil, settings = {}, host_type: :v4)
         @access_token = access_token
-        prepare_http_client(settings, host_type: host_type)
+        prepare_http_client(settings.fetch('http_client', nil))
 
         maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
         ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
@@ -111,39 +46,15 @@ class IPinfo::IPinfo
         @continents = settings.fetch('continents', DEFAULT_CONTINENT_LIST)
     end
 
-    def details_base(ip_address, settings = {}, host_type: :v4)
-        prepare_http_client(settings, host_type: host_type)
-        details = request_details(ip_address)
-        if details.key? :country
-            details[:country_name] =
-                @countries.fetch(details.fetch(:country), nil)
-            details[:is_eu] =
-                @eu_countries.include?(details.fetch(:country))
-            details[:country_flag] =
-                @countries_flags.fetch(details.fetch(:country), nil)
-            details[:country_currency] =
-                @countries_currencies.fetch(details.fetch(:country), nil)
-            details[:continent] =
-                @continents.fetch(details.fetch(:country), nil)
-            details[:country_flag_url] = COUNTRY_FLAGS_URL + details.fetch(:country) + ".svg"
-        end
-
-        if details.key? :ip
-            details[:ip_address] =
-                IPAddr.new(details.fetch(:ip))
-        end
-
-        if details.key? :loc
-            loc = details.fetch(:loc).split(',')
-            details[:latitude] = loc[0]
-            details[:longitude] = loc[1]
-        end
-
-        Response.new(details)
+    def details(ip_address = nil)
+        details_base(ip_address, :v4)
     end
 
-    def get_map_url_base(ips, settings = {}, host_type: :v4)
-        prepare_http_client(settings, host_type: host_type)
+    def details_v6(ip_address = nil)
+        details_base(ip_address, :v6)
+    end
+
+    def get_map_url(ips)
         if !ips.kind_of?(Array)
             return JSON.generate({:error => 'Invalid input. Array required!'})
         end
@@ -158,8 +69,7 @@ class IPinfo::IPinfo
         obj['reportUrl']
     end
 
-    def batch_requests_base(url_array, api_token, settings = {}, host_type: :v4)
-        prepare_http_client(settings, host_type: host_type)
+    def batch_requests(url_array, api_token)
         result = Hash.new
         lookup_ips = []
 
@@ -197,6 +107,68 @@ class IPinfo::IPinfo
         end
 
         result
+    end
+
+    protected
+
+    def prepare_http_client(httpc = nil)
+        @httpc = Adapter.new(access_token, httpc || :net_http)
+    end
+
+    private
+
+    def request_details(ip_address = nil, host_type)
+        if isBogon(ip_address)
+            details[:ip] = ip_address
+            details[:bogon] = true
+            details[:ip_address] = IPAddr.new(ip_address)
+
+            return details
+        end
+
+        res = @cache.get(cache_key(ip_address))
+        return res unless res.nil?
+
+        response = @httpc.get(escape_path(ip_address), host_type)
+
+        if response.status.eql?(429)
+            raise RateLimitError,
+                  RATE_LIMIT_MESSAGE
+        end
+
+        details = JSON.parse(response.body, symbolize_names: true)
+        @cache.set(cache_key(ip_address), details)
+        details
+    end
+
+    def details_base(ip_address, host_type)
+        details = request_details(ip_address, host_type)
+        if details.key? :country
+            details[:country_name] =
+                @countries.fetch(details.fetch(:country), nil)
+            details[:is_eu] =
+                @eu_countries.include?(details.fetch(:country))
+            details[:country_flag] =
+                @countries_flags.fetch(details.fetch(:country), nil)
+            details[:country_currency] =
+                @countries_currencies.fetch(details.fetch(:country), nil)
+            details[:continent] =
+                @continents.fetch(details.fetch(:country), nil)
+            details[:country_flag_url] = COUNTRY_FLAGS_URL + details.fetch(:country) + ".svg"
+        end
+
+        if details.key? :ip
+            details[:ip_address] =
+                IPAddr.new(details.fetch(:ip))
+        end
+
+        if details.key? :loc
+            loc = details.fetch(:loc).split(',')
+            details[:latitude] = loc[0]
+            details[:longitude] = loc[1]
+        end
+
+        Response.new(details)
     end
 
     def isBogon(ip)

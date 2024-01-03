@@ -152,16 +152,6 @@ class IPinfoTest < Minitest::Test
         assert(ipinfo.httpc = :excon)
     end
 
-    def test_set_adapter_v6
-        ipinfo = IPinfo.create(
-            ENV['IPINFO_TOKEN'],
-            { http_client: :excon }
-        )
-        ipinfo.initialize_v6
-
-        assert(ipinfo.httpc = :excon)
-    end
-
     def test_lookup_ip6
         ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
 
