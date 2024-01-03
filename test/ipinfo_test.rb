@@ -6,19 +6,6 @@ class IPinfoTest < Minitest::Test
     TEST_IPV4 = '8.8.8.8'
     TEST_IPV6 = '2601:9:7680:363:75df:f491:6f85:352f'
 
-    def test_that_it_has_a_version_number
-        refute_nil ::IPinfo::VERSION
-    end
-
-    def test_set_adapter
-        ipinfo = IPinfo.create(
-            ENV['IPINFO_TOKEN'],
-            { http_client: :excon }
-        )
-
-        assert(ipinfo.httpc = :excon)
-    end
-
     def assert_ip6(resp)
         assert_equal(resp.ip, TEST_IPV6)
         assert_equal(resp.ip_address, IPAddr.new(TEST_IPV6))
@@ -48,7 +35,7 @@ class IPinfoTest < Minitest::Test
             {
                 "name": 'Comcast Cable Communications, LLC',
                 "domain": 'comcast.com',
-                "type": ''
+                "type": 'isp'
             }
         )
         assert_equal(
@@ -82,16 +69,6 @@ class IPinfoTest < Minitest::Test
                 "domains": []
             }
         )
-    end
-
-    def test_lookup_ip6
-        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
-
-        # multiple checks for cache
-        (0...5).each do |_|
-            resp = ipinfo.details(TEST_IPV6)
-            assert_ip6(resp)
-        end
     end
 
     def assert_ip4(resp)
@@ -149,7 +126,7 @@ class IPinfoTest < Minitest::Test
             resp.abuse,
             {
                 "address": 'US, CA, Mountain View, ' \
-                        '1600 Amphitheatre Parkway, 94043',
+                           '1600 Amphitheatre Parkway, 94043',
                 "country": 'US',
                 "email": 'network-abuse@google.com',
                 "name": 'Abuse',
@@ -162,6 +139,40 @@ class IPinfoTest < Minitest::Test
         refute_nil(resp.domains[:domains])
     end
 
+    def test_that_it_has_a_version_number
+        refute_nil ::IPinfo::VERSION
+    end
+
+    def test_set_adapter_v4
+        ipinfo = IPinfo.create(
+            ENV['IPINFO_TOKEN'],
+            { http_client: :excon }
+        )
+
+        assert(ipinfo.httpc = :excon)
+    end
+
+    def test_lookup_ip6
+        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+
+        # multiple checks for cache
+        (0...5).each do |_|
+            resp = ipinfo.details(TEST_IPV6)
+            assert_ip6(resp)
+        end
+    end
+
+    # # Requires IPv6 support
+    # def test_lookup_ip6_on_host_v6
+    #     ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+
+    #     # multiple checks for cache
+    #     (0...5).each do |_|
+    #         resp = ipinfo.details_v6(TEST_IPV6)
+    #         assert_ip6(resp)
+    #     end
+    # end
+
     def test_lookup_ip4
         ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
 
@@ -171,4 +182,15 @@ class IPinfoTest < Minitest::Test
             assert_ip4(resp)
         end
     end
+
+    # # Requires IPv6 support
+    # def test_lookup_ip4_on_host_v6
+    #     ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+
+    #     # multiple checks for cache
+    #     (0...5).each do |_|
+    #         resp = ipinfo.details_v6(TEST_IPV4)
+    #         assert_ip4(resp)
+    #     end
+    # end
 end

@@ -34,7 +34,7 @@ class IPinfo::IPinfo
 
     def initialize(access_token = nil, settings = {})
         @access_token = access_token
-        @httpc = prepare_http_client(settings.fetch('http_client', nil))
+        prepare_http_client(settings.fetch('http_client', nil))
 
         maxsize = settings.fetch('maxsize', DEFAULT_CACHE_MAXSIZE)
         ttl = settings.fetch('ttl', DEFAULT_CACHE_TTL)
@@ -47,33 +47,11 @@ class IPinfo::IPinfo
     end
 
     def details(ip_address = nil)
-        details = request_details(ip_address)
-        if details.key? :country
-            details[:country_name] =
-                @countries.fetch(details.fetch(:country), nil)
-            details[:is_eu] =
-                @eu_countries.include?(details.fetch(:country))
-            details[:country_flag] =
-                @countries_flags.fetch(details.fetch(:country), nil)
-            details[:country_currency] =
-                @countries_currencies.fetch(details.fetch(:country), nil)
-            details[:continent] = 
-                @continents.fetch(details.fetch(:country), nil)
-            details[:country_flag_url] = COUNTRY_FLAGS_URL + details.fetch(:country) + ".svg"
-        end
+        details_base(ip_address, :v4)
+    end
 
-        if details.key? :ip
-            details[:ip_address] =
-                IPAddr.new(details.fetch(:ip))
-        end
-
-        if details.key? :loc
-            loc = details.fetch(:loc).split(',')
-            details[:latitude] = loc[0]
-            details[:longitude] = loc[1]
-        end
-
-        Response.new(details)
+    def details_v6(ip_address = nil)
+        details_base(ip_address, :v6)
     end
 
     def get_map_url(ips)
@@ -133,7 +111,13 @@ class IPinfo::IPinfo
 
     protected
 
-    def request_details(ip_address = nil)
+    def prepare_http_client(httpc = nil)
+        @httpc = Adapter.new(access_token, httpc || :net_http)
+    end
+
+    private
+
+    def request_details(ip_address = nil, host_type)
         if isBogon(ip_address)
             details[:ip] = ip_address
             details[:bogon] = true
@@ -145,7 +129,7 @@ class IPinfo::IPinfo
         res = @cache.get(cache_key(ip_address))
         return res unless res.nil?
 
-        response = @httpc.get(escape_path(ip_address))
+        response = @httpc.get(escape_path(ip_address), host_type)
 
         if response.status.eql?(429)
             raise RateLimitError,
@@ -157,15 +141,35 @@ class IPinfo::IPinfo
         details
     end
 
-    def prepare_http_client(httpc = nil)
-        @httpc = if httpc
-                     Adapter.new(access_token, httpc)
-                 else
-                     Adapter.new(access_token)
-                 end
-    end
+    def details_base(ip_address, host_type)
+        details = request_details(ip_address, host_type)
+        if details.key? :country
+            details[:country_name] =
+                @countries.fetch(details.fetch(:country), nil)
+            details[:is_eu] =
+                @eu_countries.include?(details.fetch(:country))
+            details[:country_flag] =
+                @countries_flags.fetch(details.fetch(:country), nil)
+            details[:country_currency] =
+                @countries_currencies.fetch(details.fetch(:country), nil)
+            details[:continent] =
+                @continents.fetch(details.fetch(:country), nil)
+            details[:country_flag_url] = COUNTRY_FLAGS_URL + details.fetch(:country) + ".svg"
+        end
 
-    private
+        if details.key? :ip
+            details[:ip_address] =
+                IPAddr.new(details.fetch(:ip))
+        end
+
+        if details.key? :loc
+            loc = details.fetch(:loc).split(',')
+            details[:latitude] = loc[0]
+            details[:longitude] = loc[1]
+        end
+
+        Response.new(details)
+    end
 
     def isBogon(ip)
         if ip.nil?
