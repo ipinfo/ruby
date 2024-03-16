@@ -119,6 +119,7 @@ class IPinfo::IPinfo
 
     def request_details(ip_address = nil, host_type)
         if isBogon(ip_address)
+            details = {}
             details[:ip] = ip_address
             details[:bogon] = true
             details[:ip_address] = IPAddr.new(ip_address)
