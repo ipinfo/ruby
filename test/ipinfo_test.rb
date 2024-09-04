@@ -4,37 +4,37 @@ require_relative './test_helper'
 
 class IPinfoTest < Minitest::Test
     TEST_IPV4 = '8.8.8.8'
-    TEST_IPV6 = '2601:9:7680:363:75df:f491:6f85:352f'
+    TEST_IPV6 = '2001:240:2a54:3900::'
 
     def assert_ip6(resp)
         assert_equal(resp.ip, TEST_IPV6)
         assert_equal(resp.ip_address, IPAddr.new(TEST_IPV6))
-        assert_equal(resp.city, 'Mount Laurel')
-        assert_equal(resp.region, 'New Jersey')
-        assert_equal(resp.country, 'US')
-        assert_equal(resp.country_name, 'United States')
+        assert_equal(resp.city, 'Hiroshima')
+        assert_equal(resp.region, 'Hiroshima')
+        assert_equal(resp.country, 'JP')
+        assert_equal(resp.country_name, 'Japan')
         assert_equal(resp.is_eu, false)
-        assert_equal(resp.loc, '39.9340,-74.8910')
-        assert_equal(resp.latitude, '39.9340')
-        assert_equal(resp.longitude, '-74.8910')
-        assert_equal(resp.postal, '08054')
-        assert_equal(resp.timezone, 'America/New_York')
-        assert_equal(resp.country_flag_url, 'https://cdn.ipinfo.io/static/images/countries-flags/US.svg')
+        assert_equal(resp.loc, '34.4000,132.4500')
+        assert_equal(resp.latitude, '34.4000')
+        assert_equal(resp.longitude, '132.4500')
+        assert_equal(resp.postal, '730-0011')
+        assert_equal(resp.timezone, 'Asia/Tokyo')
+        assert_equal(resp.country_flag_url, 'https://cdn.ipinfo.io/static/images/countries-flags/JP.svg')
         assert_equal(
             resp.asn,
             {
-                "asn": 'AS7922',
-                "name": 'Comcast Cable Communications, LLC',
-                "domain": 'comcast.com',
-                "route": '2601::/20',
+                "asn": 'AS2497',
+                "name": 'Internet Initiative Japan Inc.',
+                "domain": 'iij.ad.jp',
+                "route": '2001:240::/32',
                 "type": 'isp'
             }
         )
         assert_equal(
             resp.company,
             {
-                "name": 'Comcast Cable Communications, LLC',
-                "domain": 'comcast.com',
+                "name": 'Internet Initiative Japan Inc.',
+                "domain": 'iij.ad.jp',
                 "type": 'isp'
             }
         )
@@ -52,13 +52,12 @@ class IPinfoTest < Minitest::Test
         assert_equal(
             resp.abuse,
             {
-                "address": 'US, NJ, Mount Laurel, ' \
-                           '1800 Bishops Gate Blvd, 08054',
-                "country": 'US',
-                "email": 'abuse@comcast.net',
-                "name": 'Network Abuse and Policy Observance',
-                "network": '2601:9::/32',
-                "phone": '+1-888-565-4329'
+                "address": 'Brisbane, Australia',
+                "country": 'AU',
+                "email": 'helpdesk@apnic.net',
+                "name": 'ABUSE APNICAP',
+                "network": '2001:200::/23',
+                "phone": '+000000000'
             }
         )
         assert_equal(
