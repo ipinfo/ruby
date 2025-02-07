@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
     spec.name = 'IPinfo'
     spec.version = IPinfo::VERSION
     spec.required_ruby_version = '>= 2.5.0'
-    spec.authors       = ['Stanislav K, James Timmins', 'Uman Shahzad']
-    spec.email         = ['jameshtimmins@gmail.com', 'uman@mslm.io']
+    spec.authors       = ['IPinfo releases']
+    spec.email         = ['releases@ipinfo.io']
 
     spec.summary       = ' This is a ruby wrapper for http://ipinfo.io. '
     spec.description   = ' This is a ruby wrapper for http://ipinfo.io. '
