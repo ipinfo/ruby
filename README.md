@@ -218,7 +218,7 @@ details.all = {
 #### Caching
 
 In-memory caching of `details` data is provided by default via the
-[`lru_redux`](https://github.com/SamSaffron/lru_redux) gem. This uses an LRU
+[`sin_lru_redux`](https://github.com/cadenza-tech/sin_lru_redux) gem. This uses an LRU
 (least recently used) cache with a TTL (time to live) by default. This means
 that values will be cached for the specified duration; if the cache's max size
 is reached, cache values will be invalidated as necessary, starting with the
