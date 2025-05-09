@@ -5,7 +5,7 @@ require 'lru_redux'
 
 class IPinfo::DefaultCache < IPinfo::CacheInterface
     def initialize(ttl, max_size)
-        @cache = LruRedux::TTL::Cache.new(max_size, ttl)
+        @cache = LruRedux::TTL::Cache.new(max_size, ttl, true)
     end
 
     def get(key)
