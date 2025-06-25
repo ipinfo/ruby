@@ -9,15 +9,15 @@ class IPinfoTest < Minitest::Test
     def assert_ip6(resp)
         assert_equal(resp.ip, TEST_IPV6)
         assert_equal(resp.ip_address, IPAddr.new(TEST_IPV6))
-        assert_equal(resp.city, 'Hiroshima')
-        assert_equal(resp.region, 'Hiroshima')
+        assert_equal(resp.city, 'Osaka')
+        assert_equal(resp.region, 'Osaka')
         assert_equal(resp.country, 'JP')
         assert_equal(resp.country_name, 'Japan')
         assert_equal(resp.is_eu, false)
-        assert_equal(resp.loc, '34.4000,132.4500')
-        assert_equal(resp.latitude, '34.4000')
-        assert_equal(resp.longitude, '132.4500')
-        assert_equal(resp.postal, '730-0011')
+        assert_equal(resp.loc, '34.6938,135.5011')
+        assert_equal(resp.latitude, '34.6938')
+        assert_equal(resp.longitude, '135.5011')
+        assert_equal(resp.postal, '543-0062')
         assert_equal(resp.timezone, 'Asia/Tokyo')
         assert_equal(resp.country_flag_url, 'https://cdn.ipinfo.io/static/images/countries-flags/JP.svg')
         assert_equal(
@@ -33,7 +33,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(
             resp.company,
             {
-                "name": 'Internet Initiative Japan Inc.',
+                "name": 'IIJ Internet',
                 "domain": 'iij.ad.jp',
                 "type": 'isp'
             }
@@ -74,7 +74,7 @@ class IPinfoTest < Minitest::Test
         assert_equal(resp.ip, TEST_IPV4)
         assert_equal(resp.ip_address, IPAddr.new(TEST_IPV4))
         assert_equal(resp.hostname, 'dns.google')
-        assert_equal(resp.anycast, true)
+        assert_equal(resp.is_anycast, true)
         assert_equal(resp.city, 'Mountain View')
         assert_equal(resp.region, 'California')
         assert_equal(resp.country, 'US')
