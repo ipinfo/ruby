@@ -14,7 +14,7 @@ You'll need an IPinfo API access token, which you can get by signing up for a fr
 
 The free plan is limited to 50,000 requests per month, and doesn't include some of the data fields such as IP type and company data. To enable all the data fields and additional request volumes see [https://ipinfo.io/pricing](https://ipinfo.io/pricing)
 
-⚠️ Note: This library does not currently support our newest free API https://ipinfo.io/lite. If you’d like to use IPinfo Lite, you can call the [endpoint directly](https://ipinfo.io/developers/lite-api) using your preferred HTTP client. Developers are also welcome to contribute support for Lite by submitting a pull request.
+The library also supports the Lite API, see the [Lite API section](#lite-api) for more info.
 
 #### Installation
 
@@ -215,6 +215,23 @@ details.all = {
 :postal => '90016',
 :region => 'California'
 }
+```
+
+### Lite API
+
+The library gives the possibility to use the [Lite API](https://ipinfo.io/developers/lite-api) too, authentication with your token is still required.
+
+The returned details are slightly different from the Core API.
+
+```ruby
+require 'ipinfo_lite'
+
+access_token = '123456789abc'
+handler = IPinfoLite::create(access_token)
+
+details = handler.details('8.8.8.8')
+details.country_code # US
+details.country # United States
 ```
 
 #### Caching
