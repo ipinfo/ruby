@@ -2,3 +2,6 @@
 
 module IPinfo
 end
+
+module IPinfoLite
+end
