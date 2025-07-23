@@ -9,15 +9,15 @@ class IPinfoTest < Minitest::Test
     def assert_ip6(resp)
         assert_equal(resp.ip, TEST_IPV6)
         assert_equal(resp.ip_address, IPAddr.new(TEST_IPV6))
-        assert_equal(resp.city, 'Hiroshima')
-        assert_equal(resp.region, 'Hiroshima')
+        assert_equal(resp.city, 'Osaka')
+        assert_equal(resp.region, 'Osaka')
         assert_equal(resp.country, 'JP')
         assert_equal(resp.country_name, 'Japan')
         assert_equal(resp.is_eu, false)
-        assert_equal(resp.loc, '34.4000,132.4500')
-        assert_equal(resp.latitude, '34.4000')
-        assert_equal(resp.longitude, '132.4500')
-        assert_equal(resp.postal, '730-0011')
+        assert_equal(resp.loc, '34.6938,135.5011')
+        assert_equal(resp.latitude, '34.6938')
+        assert_equal(resp.longitude, '135.5011')
+        assert_equal(resp.postal, '543-0062')
         assert_equal(resp.timezone, 'Asia/Tokyo')
         assert_equal(resp.country_flag_url, 'https://cdn.ipinfo.io/static/images/countries-flags/JP.svg')
         assert_equal(
@@ -63,7 +63,6 @@ class IPinfoTest < Minitest::Test
         assert_equal(
             resp.domains,
             {
-                "page": 0,
                 "total": 0,
                 "domains": []
             }
@@ -87,9 +86,9 @@ class IPinfoTest < Minitest::Test
         assert_equal(resp.country_currency['symbol'], '$')
         assert_equal(resp.continent['code'], 'NA')
         assert_equal(resp.continent['name'], 'North America')
-        assert_equal(resp.loc, '37.4056,-122.0775')
-        assert_equal(resp.latitude, '37.4056')
-        assert_equal(resp.longitude, '-122.0775')
+        assert_equal(resp.loc, '38.0088,-122.1175')
+        assert_equal(resp.latitude, '38.0088')
+        assert_equal(resp.longitude, '-122.1175')
         assert_equal(resp.postal, '94043')
         assert_equal(resp.timezone, 'America/Los_Angeles')
         assert_equal(
