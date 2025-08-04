@@ -3,11 +3,10 @@ name: Release package to rubygems.org
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   publish:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -25,13 +24,11 @@ jobs:
 
       - name: Run tests
         run: bundle exec rake
-        env: 
+        env:
           IPINFO_TOKEN: ${{ secrets.IPINFO_TOKEN }}
 
       - name: Build
         run: gem build *.gemspec
 
       - name: Publish
-        run: gem push *.gem
-        env:
-          GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
+        uses: rubygems/release-gem@v1
