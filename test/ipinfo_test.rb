@@ -34,7 +34,7 @@ class IPinfoTest < Minitest::Test
             resp.company,
             {
                 "name": 'IIJ Internet',
-                "domain": 'iij.ad.jp',
+                "domain": 'iij.net',
                 "type": 'isp'
             }
         )
