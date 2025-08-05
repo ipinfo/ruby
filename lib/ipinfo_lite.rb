@@ -50,10 +50,10 @@ class IPinfo::IPinfoLite
 
     def request_details(ip_address = nil)
         if ip_address && ip_address != 'me' && isBogon(ip_address)
+            details = {}
             details[:ip] = ip_address
             details[:bogon] = true
             details[:ip_address] = IPAddr.new(ip_address)
-
             return details
         end
 
