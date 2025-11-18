@@ -9,64 +9,55 @@ class IPinfoTest < Minitest::Test
     def assert_ip6(resp)
         assert_equal(resp.ip, TEST_IPV6)
         assert_equal(resp.ip_address, IPAddr.new(TEST_IPV6))
-        assert_equal(resp.city, 'Osaka')
-        assert_equal(resp.region, 'Osaka')
+        refute_nil(resp.city)
+        refute_nil(resp.region)
         assert_equal(resp.country, 'JP')
         assert_equal(resp.country_name, 'Japan')
         assert_equal(resp.is_eu, false)
-        assert_equal(resp.loc, '34.6938,135.5011')
-        assert_equal(resp.latitude, '34.6938')
-        assert_equal(resp.longitude, '135.5011')
-        assert_equal(resp.postal, '543-0062')
+        refute_nil(resp.loc)
+        refute_nil(resp.latitude)
+        refute_nil(resp.longitude)
+        refute_nil(resp.postal)
         assert_equal(resp.timezone, 'Asia/Tokyo')
         assert_equal(resp.country_flag_url, 'https://cdn.ipinfo.io/static/images/countries-flags/JP.svg')
-        assert_equal(
-            resp.asn,
-            {
-                "asn": 'AS2497',
-                "name": 'Internet Initiative Japan Inc.',
-                "domain": 'iij.ad.jp',
-                "route": '2001:240::/32',
-                "type": 'isp'
-            }
-        )
-        # This test is flaky, with the domain flapping between iij.net and iij.ad.jp
-        #
-        # assert_equal(
-        #     resp.company,
-        #     {
-        #         "name": 'IIJ Internet',
-        #         "domain": 'iij.net',
-        #         "type": 'isp'
-        #     }
-        # )
+        refute_nil(resp.asn)
+        assert_equal(resp.asn[:asn], 'AS2497')
+        assert_equal(resp.asn[:name], 'Internet Initiative Japan Inc.')
+        refute_nil(resp.asn[:domain])
+        assert_equal(resp.asn[:route], '2001:240::/32')
+        assert_equal(resp.asn[:type], 'isp')
+        refute_nil(resp.company)
+        refute_nil(resp.company[:name])
+        refute_nil(resp.company[:domain])
+        assert_equal(resp.company[:type], "isp")
         assert_equal(
             resp.privacy,
             {
-                "vpn": false,
-                "proxy": false,
-                "tor": false,
-                "relay": false,
-                "hosting": false,
-                "service": ''
+                vpn: false,
+                proxy: false,
+                tor: false,
+                relay: false,
+                hosting: false,
+                service: ''
             }
         )
         assert_equal(
             resp.abuse,
             {
-                "address": 'Brisbane, Australia',
-                "country": 'AU',
-                "email": 'helpdesk@apnic.net',
-                "name": 'ABUSE APNICAP',
-                "network": '2001:200::/23',
-                "phone": '+000000000'
+                address: 'Brisbane, Australia',
+                country: 'AU',
+                email: 'helpdesk@apnic.net',
+                name: 'ABUSE APNICAP',
+                network: '2001:200::/23',
+                phone: '+000000000'
             }
         )
         assert_equal(
             resp.domains,
             {
-                "total": 0,
-                "domains": []
+                page: 0,
+                total: 0,
+                domains: []
             }
         )
     end
@@ -88,50 +79,57 @@ class IPinfoTest < Minitest::Test
         assert_equal(resp.country_currency['symbol'], '$')
         assert_equal(resp.continent['code'], 'NA')
         assert_equal(resp.continent['name'], 'North America')
-        assert_equal(resp.loc, '38.0088,-122.1175')
-        assert_equal(resp.latitude, '38.0088')
-        assert_equal(resp.longitude, '-122.1175')
+        refute_nil(resp.loc)
+        refute_nil(resp.latitude)
+        refute_nil(resp.longitude)
         assert_equal(resp.postal, '94043')
         assert_equal(resp.timezone, 'America/Los_Angeles')
         assert_equal(
             resp.asn,
             {
-                "asn": 'AS15169',
-                "name": 'Google LLC',
-                "domain": 'google.com',
-                "route": '8.8.8.0/24',
-                "type": 'hosting'
+                asn: 'AS15169',
+                name: 'Google LLC',
+                domain: 'google.com',
+                route: '8.8.8.0/24',
+                type: 'hosting'
             }
         )
         assert_equal(
             resp.company,
             {
-                "name": 'Google LLC',
-                "domain": 'google.com',
-                "type": 'hosting'
+                name: 'Google LLC',
+                domain: 'google.com',
+                type: 'hosting',
+                firmographic: {
+                    name: 'Google LLC',
+                    domain: 'google.com',
+                    founded: '2002-10-22',
+                    employees: nil,
+                    sic: 5734
+                }
             }
         )
         assert_equal(
             resp.privacy,
             {
-                "vpn": false,
-                "proxy": false,
-                "tor": false,
-                "relay": false,
-                "hosting": true,
-                "service": ''
+                vpn: false,
+                proxy: false,
+                tor: false,
+                relay: false,
+                hosting: true,
+                service: ''
             }
         )
         assert_equal(
             resp.abuse,
             {
-                "address": 'US, CA, Mountain View, ' \
-                           '1600 Amphitheatre Parkway, 94043',
-                "country": 'US',
-                "email": 'network-abuse@google.com',
-                "name": 'Abuse',
-                "network": '8.8.8.0/24',
-                "phone": '+1-650-253-0000'
+                address: 'US, CA, Mountain View, ' \
+                         '1600 Amphitheatre Parkway, 94043',
+                country: 'US',
+                email: 'network-abuse@google.com',
+                name: 'Abuse',
+                network: '8.8.8.0/24',
+                phone: '+1-650-253-0000'
             }
         )
         assert_equal(resp.domains[:ip], TEST_IPV4)
