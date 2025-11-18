@@ -130,3 +130,42 @@ class IPinfo::AdapterCore
         headers
     end
 end
+
+class IPinfo::AdapterPlus
+    HOST = 'https://api.ipinfo.io/lookup'
+
+    attr_reader :conn
+
+    def initialize(token = nil, adapter = :net_http)
+        @token = token
+        @conn = connection(adapter)
+    end
+
+    def get(uri)
+        @conn.get(HOST + uri) do |req|
+            default_headers.each_pair do |key, value|
+                req.headers[key] = value
+            end
+            req.params['token'] = CGI.escape(token) if token
+        end
+    end
+
+    private
+
+    attr_reader :token
+
+    def connection(adapter)
+        Faraday.new() do |conn|
+            conn.adapter(adapter)
+        end
+    end
+
+    def default_headers
+        headers = {
+            'User-Agent' => "IPinfoClient/Ruby/#{IPinfo::VERSION}",
+            'Accept' => 'application/json'
+        }
+        headers['Authorization'] = "Bearer #{CGI.escape(token)}" if token
+        headers
+    end
+end

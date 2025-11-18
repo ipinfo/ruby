@@ -4,6 +4,7 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'ipinfo'
 require 'ipinfo_lite'
 require 'ipinfo_core'
+require 'ipinfo_plus'
 
 require 'minitest/autorun'
 require 'minitest/reporters'
