@@ -5,6 +5,7 @@ require_relative './test_helper'
 class IPinfoTest < Minitest::Test
     TEST_IPV4 = '8.8.8.8'
     TEST_IPV6 = '2001:240:2a54:3900::'
+    TEST_RESPROXY_IP = '175.107.211.204'
 
     def assert_ip6(resp)
         assert_equal(resp.ip, TEST_IPV6)
@@ -179,6 +180,26 @@ class IPinfoTest < Minitest::Test
             resp = ipinfo.details(TEST_IPV4)
             assert_ip4(resp)
         end
+    end
+
+    def test_resproxy
+        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+
+        # multiple checks for cache
+        (0...5).each do |_|
+            resp = ipinfo.resproxy(TEST_RESPROXY_IP)
+            assert_equal(resp.ip, TEST_RESPROXY_IP)
+            refute_nil(resp.last_seen)
+            refute_nil(resp.percent_days_seen)
+            refute_nil(resp.service)
+        end
+    end
+
+    def test_resproxy_empty
+        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+
+        resp = ipinfo.resproxy(TEST_IPV4)
+        assert_equal(resp.all, {})
     end
 
     # # Requires IPv6 support

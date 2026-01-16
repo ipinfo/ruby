@@ -54,6 +54,23 @@ class IPinfo::IPinfo
         details_base(ip_address, :v6)
     end
 
+    def resproxy(ip_address)
+        cache_key_str = "resproxy:#{ip_address}"
+        res = @cache.get(cache_key(cache_key_str))
+        return Response.new(res) unless res.nil?
+
+        response = @httpc.get("/resproxy/#{CGI.escape(ip_address)}", :v4)
+
+        if response.status.eql?(429)
+            raise RateLimitError,
+                  RATE_LIMIT_MESSAGE
+        end
+
+        details = JSON.parse(response.body, symbolize_names: true)
+        @cache.set(cache_key(cache_key_str), details)
+        Response.new(details)
+    end
+
     def get_map_url(ips)
         if !ips.kind_of?(Array)
             return JSON.generate({:error => 'Invalid input. Array required!'})
