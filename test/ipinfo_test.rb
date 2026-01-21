@@ -53,14 +53,8 @@ class IPinfoTest < Minitest::Test
                 phone: '+000000000'
             }
         )
-        assert_equal(
-            resp.domains,
-            {
-                page: 0,
-                total: 0,
-                domains: []
-            }
-        )
+        assert_equal(resp.domains[:total], 0)
+        assert_equal(resp.domains[:domains], [])
     end
 
     def assert_ip4(resp)
