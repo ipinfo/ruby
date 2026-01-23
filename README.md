@@ -1,10 +1,11 @@
 # [<img src="https://ipinfo.io/static/ipinfo-small.svg" alt="IPinfo" width="24"/>](https://ipinfo.io/) IPinfo Ruby Client Library
 
 This is the official Ruby client library for the [IPinfo.io](https://ipinfo.io) IP address API, allowing you to look up your own IP address, or get any of the following details for an IP:
- - [IP geolocation data](https://ipinfo.io/ip-geolocation-api) (city, region, country, postal code, latitude, and longitude)
- - [ASN information](https://ipinfo.io/asn-api) (ISP or network operator, associated domain name, and type, such as business, hosting, or company)
- - [Firmographic data](https://ipinfo.io/ip-company-api) (the name and domain of the business that uses the IP address)
- - [Carrier details](https://ipinfo.io/ip-carrier-api) (the name of the mobile carrier and MNC and MCC for that carrier if the IP is used exclusively for mobile traffic)
+
+- [IP geolocation data](https://ipinfo.io/ip-geolocation-api) (city, region, country, postal code, latitude, and longitude)
+- [ASN information](https://ipinfo.io/asn-api) (ISP or network operator, associated domain name, and type, such as business, hosting, or company)
+- [Firmographic data](https://ipinfo.io/ip-company-api) (the name and domain of the business that uses the IP address)
+- [Carrier details](https://ipinfo.io/ip-carrier-api) (the name of the mobile carrier and MNC and MCC for that carrier if the IP is used exclusively for mobile traffic)
 
 Check all the data we have for your IP address [here](https://ipinfo.io/what-is-my-ip).
 
@@ -234,6 +235,58 @@ details.country_code # US
 details.country # United States
 ```
 
+### Core API
+
+The library also supports the [Core API](https://ipinfo.io/developers/data-types#core-data), which provides city-level geolocation with nested geo and AS objects. Authentication with your token is required.
+
+```ruby
+require 'ipinfo_core'
+
+access_token = '123456789abc'
+handler = IPinfoCore::create(access_token)
+
+details = handler.details('8.8.8.8')
+details.ip # 8.8.8.8
+details.geo['city'] # Mountain View
+details.geo['country'] # United States
+details.as['asn'] # AS15169
+details.as['name'] # Google LLC
+```
+
+### Plus API
+
+The library also supports the [Plus API](https://ipinfo.io/developers/data-types#plus-data), which provides enhanced data including mobile carrier info and privacy detection. Authentication with your token is required.
+
+```ruby
+require 'ipinfo_plus'
+
+access_token = '123456789abc'
+handler = IPinfoPlus::create(access_token)
+
+details = handler.details('8.8.8.8')
+details.ip # 8.8.8.8
+details.geo['city'] # Mountain View
+details.mobile # mobile carrier info
+details.anonymous['is_proxy'] # false
+```
+
+### Residential Proxy API
+
+The library also supports the [Residential Proxy API](https://ipinfo.io/developers/residential-proxy-api), which allows you to check if an IP address is a residential proxy. Authentication with your token is required.
+
+```ruby
+require 'ipinfo'
+
+access_token = '123456789abc'
+handler = IPinfo::create(access_token)
+
+resproxy = handler.get_resproxy('175.107.211.204')
+resproxy.ip # 175.107.211.204
+resproxy.last_seen # 2025-01-20
+resproxy.percent_days_seen # 0.85
+resproxy.service # Bright Data
+```
+
 #### Caching
 
 In-memory caching of `details` data is provided by default via the
@@ -250,9 +303,9 @@ Cache behavior can be modified by setting the `cache_options` keyword argument.
 specified in the `cachetools` library. The nesting of keyword arguments is to
 prevent name collisions between this library and its dependencies.
 
-* Default maximum cache size: 4096 (multiples of 2 are recommended to increase
+- Default maximum cache size: 4096 (multiples of 2 are recommended to increase
   efficiency)
-* Default TTL: 24 hours (in seconds)
+- Default TTL: 24 hours (in seconds)
 
 ```ruby
 token = '1234'
