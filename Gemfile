@@ -10,4 +10,5 @@ group :development do
     gem 'minitest-reporters'
     gem 'rake'
     gem 'rubocop'
+    gem 'webmock'
 end
