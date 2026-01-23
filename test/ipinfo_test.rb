@@ -177,20 +177,41 @@ class IPinfoTest < Minitest::Test
     end
 
     def test_resproxy
-        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+        # Mock the resproxy API response (with any query params)
+        stub_request(:get, /https:\/\/ipinfo\.io\/resproxy\/#{TEST_RESPROXY_IP}/)
+            .to_return(
+                status: 200,
+                body: {
+                    ip: TEST_RESPROXY_IP,
+                    last_seen: '2025-01-20',
+                    percent_days_seen: 0.85,
+                    service: 'example_service'
+                }.to_json,
+                headers: { 'Content-Type' => 'application/json' }
+            )
+
+        ipinfo = IPinfo.create('test_token')
 
         # multiple checks for cache
         (0...5).each do |_|
             resp = ipinfo.resproxy(TEST_RESPROXY_IP)
             assert_equal(resp.ip, TEST_RESPROXY_IP)
-            refute_nil(resp.last_seen)
-            refute_nil(resp.percent_days_seen)
-            refute_nil(resp.service)
+            assert_equal(resp.last_seen, '2025-01-20')
+            assert_equal(resp.percent_days_seen, 0.85)
+            assert_equal(resp.service, 'example_service')
         end
     end
 
     def test_resproxy_empty
-        ipinfo = IPinfo.create(ENV['IPINFO_TOKEN'])
+        # Mock the resproxy API response for non-residential proxy IP (with any query params)
+        stub_request(:get, /https:\/\/ipinfo\.io\/resproxy\/#{TEST_IPV4}/)
+            .to_return(
+                status: 200,
+                body: '{}',
+                headers: { 'Content-Type' => 'application/json' }
+            )
+
+        ipinfo = IPinfo.create('test_token')
 
         resp = ipinfo.resproxy(TEST_IPV4)
         assert_equal(resp.all, {})
